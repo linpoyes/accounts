@@ -24,6 +24,7 @@
   html{font-size:60%}
   body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",sans-serif;min-height:100vh;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
 
+  /* Topbar */
   .topbar{background:var(--dark);padding:12px 18px;padding-top:calc(12px + env(safe-area-inset-top));position:sticky;top:0;z-index:10}
   .topbar-row1{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
   .topbar-title{color:#f1efe8;font-size:1.7rem;font-weight:600}
@@ -32,10 +33,12 @@
   .store-input::placeholder{color:rgba(255,255,255,0.30);font-weight:400}
   .store-input:focus{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.15)}
 
+  /* Total */
   .total-banner{background:var(--green-dark);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
   .total-label{font-size:1.3rem;color:var(--green-text);font-weight:500;letter-spacing:.05em}
   .total-val{font-size:2.6rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
 
+  /* Rows */
   .section-head{padding:10px 18px 5px;font-size:1.1rem;font-weight:600;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;background:var(--surface2);border-bottom:.5px solid var(--border);border-top:.5px solid var(--border);margin-top:10px}
   .entry-row{display:flex;align-items:center;padding:0 18px;height:52px;background:var(--surface);border-bottom:.5px solid var(--border);gap:12px}
   .label-text{flex:1;font-size:1.5rem;color:var(--text)}
@@ -43,6 +46,7 @@
   .num-input:focus{border-color:var(--green-mid);background:var(--surface)}
   .num-input::placeholder{color:var(--text3);font-weight:400}
 
+  /* Buttons */
   .btn-area{margin:16px 18px 0;display:flex;flex-direction:column;gap:10px}
   .btn-row{display:flex;gap:10px}
   .btn-clear{flex:1;padding:13px;font-size:1.5rem;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
@@ -56,6 +60,28 @@
   .btn-share:active{background:#0c447c}
   .btn-icon{width:18px;height:18px;flex-shrink:0}
 
+  /* Add to home tutorial button */
+  .btn-tutorial{width:100%;margin-top:4px;padding:13px;font-size:1.4rem;font-weight:600;background:transparent;color:var(--text3);border:1px dashed var(--border2);border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-tutorial:active{background:var(--surface2)}
+
+  /* Tutorial overlay */
+  .tutorial{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:300;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+  .tutorial.show{display:flex}
+  .tutorial-card{background:#1c1c1e;border-radius:16px;width:calc(100% - 32px);overflow:hidden;margin-bottom:16px}
+  .tutorial-header{padding:16px 18px 12px;border-bottom:0.5px solid rgba(255,255,255,0.12)}
+  .tutorial-title{color:#fff;font-size:1.7rem;font-weight:700;margin-bottom:4px}
+  .tutorial-sub{color:rgba(255,255,255,0.45);font-size:1.3rem}
+  .step{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.08)}
+  .step:last-child{border-bottom:none}
+  .step-num{width:26px;height:26px;border-radius:50%;background:#185fa5;color:#fff;font-size:1.3rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .step-body{}
+  .step-title{color:#fff;font-size:1.45rem;font-weight:600;margin-bottom:3px}
+  .step-desc{color:rgba(255,255,255,0.55);font-size:1.3rem;line-height:1.6}
+  .step-tag{display:inline-block;background:rgba(255,255,255,0.12);color:#fff;font-size:1.2rem;font-weight:600;padding:2px 10px;border-radius:6px;margin:4px 3px 0 0}
+  .tutorial-close{width:calc(100% - 32px);padding:15px;background:#2c2c2e;border:none;border-radius:12px;color:#fff;font-size:1.6rem;font-weight:600;cursor:pointer;font-family:inherit}
+  .tutorial-close:active{background:#3a3a3c}
+
+  /* Image overlay */
   .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:24px}
   .overlay.show{display:flex}
   .overlay img{max-width:100%;max-height:65vh;border-radius:12px;object-fit:contain}
@@ -117,8 +143,52 @@
       分享圖片
     </button>
   </div>
+  <button class="btn-tutorial" onclick="document.getElementById('tutorial').classList.add('show')">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    加入主畫面教學
+  </button>
 </div>
 
+<!-- Tutorial overlay -->
+<div class="tutorial" id="tutorial" onclick="closeTutorial(event)">
+  <div class="tutorial-card">
+    <div class="tutorial-header">
+      <div class="tutorial-title">加入主畫面</div>
+      <div class="tutorial-sub">用 Safari 開啟網址後，依以下步驟操作</div>
+    </div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">點底部分享按鈕</div>
+        <div class="step-desc">Safari 下方工具列，點中間的<br><span class="step-tag">分享</span>圖示（方塊加箭頭）</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">選「加入主畫面」</div>
+        <div class="step-desc">往下滑選單，找到並點選<br><span class="step-tag">加入主畫面</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">確認名稱後點「新增」</div>
+        <div class="step-desc">名稱可改成「帳務記錄」，右上角點<br><span class="step-tag">新增</span>完成</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">桌面捷徑建立完成</div>
+        <div class="step-desc">之後直接從主畫面開啟，就像 App 一樣使用</div>
+      </div>
+    </div>
+  </div>
+  <button class="tutorial-close" onclick="document.getElementById('tutorial').classList.remove('show')">關閉</button>
+</div>
+
+<!-- Image preview overlay -->
 <div class="overlay" id="overlay" onclick="closeOverlay(event)">
   <img id="preview-img" src="" alt="帳務記錄">
   <p class="overlay-tip">長按圖片 → 選「加入照片」<br>即可儲存到相簿</p>
@@ -160,29 +230,28 @@ function buildCanvas(){
   const denom = v('d100')+v('d50')+v('d10')+v('d5')+v('d1');
   const grand = denom+v('borrow')+v('pos1')+v('pos2')+v('pen')+v('bills')+v('change')+v('storage');
   const store = storeName();
-
   const rows = [
-    {type:'section', label:'面額'},
-    {type:'row', label:'100', val:v('d100')},
-    {type:'row', label:'50',  val:v('d50')},
-    {type:'row', label:'10',  val:v('d10')},
-    {type:'row', label:'5',   val:v('d5')},
-    {type:'row', label:'1',   val:v('d1')},
-    {type:'section', label:'交班項目'},
-    {type:'row', label:'借零抽屜', val:v('borrow')},
-    {type:'row', label:'收銀機 1', val:v('pos1')},
-    {type:'row', label:'收銀機 2', val:v('pos2')},
-    {type:'section', label:'庫存零錢'},
-    {type:'row', label:'鉛筆袋',   val:v('pen')},
-    {type:'row', label:'百鈔',     val:v('bills')},
-    {type:'row', label:'換錢',     val:v('change')},
-    {type:'row', label:'倉庫零錢', val:v('storage')},
+    {type:'section',label:'面額'},
+    {type:'row',label:'100',val:v('d100')},
+    {type:'row',label:'50',val:v('d50')},
+    {type:'row',label:'10',val:v('d10')},
+    {type:'row',label:'5',val:v('d5')},
+    {type:'row',label:'1',val:v('d1')},
+    {type:'section',label:'交班項目'},
+    {type:'row',label:'借零抽屜',val:v('borrow')},
+    {type:'row',label:'收銀機 1',val:v('pos1')},
+    {type:'row',label:'收銀機 2',val:v('pos2')},
+    {type:'section',label:'庫存零錢'},
+    {type:'row',label:'鉛筆袋',val:v('pen')},
+    {type:'row',label:'百鈔',val:v('bills')},
+    {type:'row',label:'換錢',val:v('change')},
+    {type:'row',label:'倉庫零錢',val:v('storage')},
   ];
 
   const sc=3, W=375;
-  const HEADER_H=72, BANNER_H=64, ROW_H=46, SEC_H=30, FOOTER_H=0;
-  let h = HEADER_H + BANNER_H + 8;
-  rows.forEach(r=>{ h += r.type==='section' ? SEC_H : ROW_H; });
+  const HEADER_H=72, BANNER_H=64, ROW_H=46, SEC_H=30;
+  let h = HEADER_H+BANNER_H+8;
+  rows.forEach(r=>{h += r.type==='section' ? SEC_H : ROW_H;});
   h += 16;
 
   const canvas = document.getElementById('canvas');
@@ -200,26 +269,19 @@ function buildCanvas(){
   }
 
   let y=0;
-
   // Header
   bg(0,y,W,HEADER_H,'#2c2c2a');
-  txt('帳務記錄',18,y+20,15,'400','#888780');
-  txt(dateStr,W-18,y+20,13,'400','#888780','right');
-  if(store){
-    txt(store,18,y+48,20,'700','#f1efe8');
-  } else {
-    // center vertically if no store name
-    txt('帳務記錄',18,y+36,17,'600','#f1efe8');
-  }
+  txt('帳務記錄',18,y+18,14,'400','#888780');
+  txt(dateStr,W-18,y+18,13,'400','#888780','right');
+  txt(store||'帳務記錄',18,y+(store?48:36),store?20:17,store?'700':'600','#f1efe8');
   y+=HEADER_H;
 
-  // Single total banner
+  // Total banner
   bg(0,y,W,BANNER_H,'#27500a');
   txt('總合計',18,y+BANNER_H/2,14,'500','#c0dd97');
   txt(fmt(grand),W-18,y+BANNER_H/2,30,'700','#ffffff','right');
   y+=BANNER_H+8;
 
-  // Rows
   rows.forEach(r=>{
     if(r.type==='section'){
       bg(0,y,W,SEC_H,'#f1efe8');
@@ -238,7 +300,7 @@ function buildCanvas(){
 
 function getFilename(ext){
   const s = storeName();
-  return '帳務_'+(s ? s+'_' : '')+fileDate()+'.'+ext;
+  return '帳務_'+(s?s+'_':'')+fileDate()+'.'+ext;
 }
 
 function saveImage(){
@@ -250,8 +312,7 @@ function saveImage(){
     document.getElementById('overlay').classList.add('show');
   } else {
     const a = document.createElement('a');
-    a.href = dataURL;
-    a.download = getFilename('png');
+    a.href=dataURL; a.download=getFilename('png');
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     showToast('圖片已下載');
   }
@@ -261,13 +322,13 @@ async function shareImage(){
   const {canvas} = buildCanvas();
   const filename = getFilename('png');
   const store = storeName();
-  const title = '帳務記錄'+(store ? ' — '+store : '')+' '+dateStr;
+  const title = '帳務記錄'+(store?' — '+store:'')+' '+dateStr;
   if(navigator.share && navigator.canShare){
     try{
       const blob = await new Promise(res=>canvas.toBlob(res,'image/png'));
-      const file = new File([blob], filename, {type:'image/png'});
+      const file = new File([blob],filename,{type:'image/png'});
       if(navigator.canShare({files:[file]})){
-        await navigator.share({files:[file], title});
+        await navigator.share({files:[file],title});
         return;
       }
     } catch(e){
@@ -283,6 +344,11 @@ async function shareImage(){
 function closeOverlay(e){
   if(e.target===document.getElementById('overlay'))
     document.getElementById('overlay').classList.remove('show');
+}
+
+function closeTutorial(e){
+  if(e.target===document.getElementById('tutorial'))
+    document.getElementById('tutorial').classList.remove('show');
 }
 
 function savePDF(){
