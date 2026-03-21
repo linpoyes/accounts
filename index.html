@@ -21,47 +21,44 @@
       --border:rgba(255,255,255,0.10);--border2:rgba(255,255,255,0.20);
       --text:#f1efe8;--text2:#b4b2a9;--text3:#888780;}
   }
-  html{font-size:80%}
+  html{font-size:60%}
   body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",sans-serif;min-height:100vh;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
 
   .topbar{background:var(--dark);padding:12px 18px;padding-top:calc(12px + env(safe-area-inset-top));position:sticky;top:0;z-index:10}
   .topbar-row1{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
   .topbar-title{color:#f1efe8;font-size:1.7rem;font-weight:600}
   .topbar-date{color:#888780;font-size:1.3rem}
-  .store-input{width:100%;height:36px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);border-radius:8px;color:#f1efe8;font-size:1.45rem;padding:0 12px;font-family:inherit;outline:none;transition:border-color .15s}
-  .store-input::placeholder{color:rgba(255,255,255,0.35)}
-  .store-input:focus{border-color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.15)}
+  .store-input{width:100%;height:36px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);border-radius:8px;color:#f1efe8;font-size:1.6rem;font-weight:600;padding:0 12px;font-family:inherit;outline:none;transition:border-color .15s}
+  .store-input::placeholder{color:rgba(255,255,255,0.30);font-weight:400}
+  .store-input:focus{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.15)}
 
   .total-banner{background:var(--green-dark);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
   .total-label{font-size:1.3rem;color:var(--green-text);font-weight:500;letter-spacing:.05em}
   .total-val{font-size:2.6rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+
   .section-head{padding:10px 18px 5px;font-size:1.1rem;font-weight:600;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;background:var(--surface2);border-bottom:.5px solid var(--border);border-top:.5px solid var(--border);margin-top:10px}
-  .entry-row{display:flex;align-items:center;padding:0 18px;height:56px;background:var(--surface);border-bottom:.5px solid var(--border);gap:12px}
+  .entry-row{display:flex;align-items:center;padding:0 18px;height:52px;background:var(--surface);border-bottom:.5px solid var(--border);gap:12px}
   .label-text{flex:1;font-size:1.5rem;color:var(--text)}
-  .num-input{width:120px;height:40px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:1.6rem;font-weight:600;text-align:right;padding:0 12px;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;outline:none;font-family:inherit;transition:border-color .15s}
+  .num-input{width:120px;height:38px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:1.6rem;font-weight:600;text-align:right;padding:0 12px;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;outline:none;font-family:inherit;transition:border-color .15s}
   .num-input:focus{border-color:var(--green-mid);background:var(--surface)}
   .num-input::placeholder{color:var(--text3);font-weight:400}
-  .subtotal-row{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--green-light);border-bottom:.5px solid var(--border)}
-  @media(prefers-color-scheme:dark){.subtotal-row{background:#1a3009}.subtotal-label,.subtotal-val{color:#c0dd97 !important}}
-  .subtotal-label{font-size:1.3rem;font-weight:600;color:var(--green-dark)}
-  .subtotal-val{font-size:1.6rem;font-weight:700;color:var(--green-dark);font-variant-numeric:tabular-nums}
 
   .btn-area{margin:16px 18px 0;display:flex;flex-direction:column;gap:10px}
   .btn-row{display:flex;gap:10px}
-  .btn-clear{flex:1;padding:14px;font-size:1.5rem;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
+  .btn-clear{flex:1;padding:13px;font-size:1.5rem;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
   .btn-clear:active{background:var(--surface2)}
   .btn-3{display:flex;gap:10px}
-  .btn-img{flex:1;padding:12px 6px;font-size:1.35rem;font-weight:600;background:var(--green-dark);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .btn-img{flex:1;padding:11px 4px;font-size:1.3rem;font-weight:600;background:var(--green-dark);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
   .btn-img:active{background:var(--green-mid)}
-  .btn-pdf{flex:1;padding:12px 6px;font-size:1.35rem;font-weight:600;background:var(--dark);color:#f1efe8;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .btn-pdf{flex:1;padding:11px 4px;font-size:1.3rem;font-weight:600;background:var(--dark);color:#f1efe8;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
   .btn-pdf:active{background:#444441}
-  .btn-share{flex:1;padding:12px 6px;font-size:1.35rem;font-weight:600;background:#185fa5;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .btn-share{flex:1;padding:11px 4px;font-size:1.3rem;font-weight:600;background:#185fa5;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
   .btn-share:active{background:#0c447c}
-  .btn-icon{width:20px;height:20px;flex-shrink:0}
+  .btn-icon{width:18px;height:18px;flex-shrink:0}
 
   .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:24px}
   .overlay.show{display:flex}
-  .overlay img{max-width:100%;max-height:60vh;border-radius:12px;object-fit:contain}
+  .overlay img{max-width:100%;max-height:65vh;border-radius:12px;object-fit:contain}
   .overlay-tip{color:#fff;font-size:1.5rem;margin-top:16px;text-align:center;line-height:1.7}
   .overlay-close{margin-top:20px;padding:12px 32px;background:#fff;color:#1a1a18;border:none;border-radius:20px;font-size:1.5rem;font-weight:600;cursor:pointer;font-family:inherit}
 
@@ -76,7 +73,7 @@
     <span class="topbar-title">帳務記錄</span>
     <span class="topbar-date" id="today-date"></span>
   </div>
-  <input class="store-input" type="text" id="store-name" placeholder="門市名稱（選填）" maxlength="20">
+  <input class="store-input" type="text" id="store-name" placeholder="門市名稱" maxlength="20">
 </div>
 
 <div class="total-banner">
@@ -90,10 +87,6 @@
 <div class="entry-row"><span class="label-text">10</span><input class="num-input" type="number" inputmode="numeric" id="d10" placeholder="0" oninput="calc()"></div>
 <div class="entry-row"><span class="label-text">5</span><input class="num-input" type="number" inputmode="numeric" id="d5" placeholder="0" oninput="calc()"></div>
 <div class="entry-row"><span class="label-text">1</span><input class="num-input" type="number" inputmode="numeric" id="d1" placeholder="0" oninput="calc()"></div>
-<div class="subtotal-row">
-  <span class="subtotal-label">合計</span>
-  <span class="subtotal-val" id="denom-sub">0</span>
-</div>
 
 <div class="section-head" style="margin-top:0">交班項目</div>
 <div class="entry-row"><span class="label-text">借零抽屜</span><input class="num-input" type="number" inputmode="numeric" id="borrow" placeholder="0" oninput="calc()"></div>
@@ -140,7 +133,6 @@ const d = new Date();
 const dateStr = d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
 document.getElementById('today-date').textContent = dateStr;
 
-// remember store name
 const savedStore = localStorage.getItem('store_name');
 if(savedStore) document.getElementById('store-name').value = savedStore;
 document.getElementById('store-name').addEventListener('input', function(){
@@ -150,11 +142,11 @@ document.getElementById('store-name').addEventListener('input', function(){
 function v(id){return parseInt(document.getElementById(id).value)||0;}
 function fmt(n){return '$'+n.toLocaleString();}
 function storeName(){return document.getElementById('store-name').value.trim();}
+function fileDate(){return dateStr.replace(/\//g,'-');}
 
 function calc(){
   const denom = v('d100')+v('d50')+v('d10')+v('d5')+v('d1');
   const other = v('borrow')+v('pos1')+v('pos2')+v('pen')+v('bills')+v('change')+v('storage');
-  document.getElementById('denom-sub').textContent = denom.toLocaleString();
   document.getElementById('grand-total').textContent = (denom+other).toLocaleString();
 }
 
@@ -168,31 +160,30 @@ function buildCanvas(){
   const denom = v('d100')+v('d50')+v('d10')+v('d5')+v('d1');
   const grand = denom+v('borrow')+v('pos1')+v('pos2')+v('pen')+v('bills')+v('change')+v('storage');
   const store = storeName();
+
   const rows = [
-    {type:'section',label:'面額'},
-    {type:'row',label:'100',val:v('d100')},
-    {type:'row',label:'50',val:v('d50')},
-    {type:'row',label:'10',val:v('d10')},
-    {type:'row',label:'5',val:v('d5')},
-    {type:'row',label:'1',val:v('d1')},
-    {type:'sub',label:'合計',val:denom},
-    {type:'section',label:'交班項目'},
-    {type:'row',label:'借零抽屜',val:v('borrow')},
-    {type:'row',label:'收銀機 1',val:v('pos1')},
-    {type:'row',label:'收銀機 2',val:v('pos2')},
-    {type:'section',label:'庫存零錢'},
-    {type:'row',label:'鉛筆袋',val:v('pen')},
-    {type:'row',label:'百鈔',val:v('bills')},
-    {type:'row',label:'換錢',val:v('change')},
-    {type:'row',label:'倉庫零錢',val:v('storage')},
+    {type:'section', label:'面額'},
+    {type:'row', label:'100', val:v('d100')},
+    {type:'row', label:'50',  val:v('d50')},
+    {type:'row', label:'10',  val:v('d10')},
+    {type:'row', label:'5',   val:v('d5')},
+    {type:'row', label:'1',   val:v('d1')},
+    {type:'section', label:'交班項目'},
+    {type:'row', label:'借零抽屜', val:v('borrow')},
+    {type:'row', label:'收銀機 1', val:v('pos1')},
+    {type:'row', label:'收銀機 2', val:v('pos2')},
+    {type:'section', label:'庫存零錢'},
+    {type:'row', label:'鉛筆袋',   val:v('pen')},
+    {type:'row', label:'百鈔',     val:v('bills')},
+    {type:'row', label:'換錢',     val:v('change')},
+    {type:'row', label:'倉庫零錢', val:v('storage')},
   ];
 
   const sc=3, W=375;
-  const HEADER_H = store ? 70 : 54;
-  const BANNER_H=60, ROW_H=46, SEC_H=30, SUB_H=38, FOOTER_H=64;
-  let h = HEADER_H+BANNER_H+8;
-  rows.forEach(r=>{h+=r.type==='section'?SEC_H:r.type==='sub'?SUB_H:ROW_H;});
-  h += FOOTER_H+16;
+  const HEADER_H=72, BANNER_H=64, ROW_H=46, SEC_H=30, FOOTER_H=0;
+  let h = HEADER_H + BANNER_H + 8;
+  rows.forEach(r=>{ h += r.type==='section' ? SEC_H : ROW_H; });
+  h += 16;
 
   const canvas = document.getElementById('canvas');
   canvas.width=W*sc; canvas.height=h*sc;
@@ -209,35 +200,45 @@ function buildCanvas(){
   }
 
   let y=0;
+
+  // Header
   bg(0,y,W,HEADER_H,'#2c2c2a');
-  txt('帳務記錄',18,y+18,17,'600','#f1efe8');
-  txt(dateStr,W-18,y+18,13,'400','#888780','right');
+  txt('帳務記錄',18,y+20,15,'400','#888780');
+  txt(dateStr,W-18,y+20,13,'400','#888780','right');
   if(store){
-    txt(store,18,y+44,15,'500','rgba(255,255,255,0.75)');
+    txt(store,18,y+48,20,'700','#f1efe8');
+  } else {
+    // center vertically if no store name
+    txt('帳務記錄',18,y+36,17,'600','#f1efe8');
   }
   y+=HEADER_H;
 
+  // Single total banner
   bg(0,y,W,BANNER_H,'#27500a');
-  txt('總合計',18,y+BANNER_H/2,13,'500','#c0dd97');
-  txt(fmt(grand),W-18,y+BANNER_H/2,27,'700','#ffffff','right');
+  txt('總合計',18,y+BANNER_H/2,14,'500','#c0dd97');
+  txt(fmt(grand),W-18,y+BANNER_H/2,30,'700','#ffffff','right');
   y+=BANNER_H+8;
 
+  // Rows
   rows.forEach(r=>{
     if(r.type==='section'){
-      bg(0,y,W,SEC_H,'#f1efe8');txt(r.label,18,y+SEC_H/2,11,'600','#888780');hl(y+SEC_H);y+=SEC_H;
-    } else if(r.type==='sub'){
-      bg(0,y,W,SUB_H,'#eaf3de');txt(r.label,18,y+SUB_H/2,13,'600','#27500a');txt(fmt(r.val),W-18,y+SUB_H/2,15,'700','#27500a','right');hl(y+SUB_H);y+=SUB_H;
+      bg(0,y,W,SEC_H,'#f1efe8');
+      txt(r.label,18,y+SEC_H/2,11,'600','#888780');
+      hl(y+SEC_H); y+=SEC_H;
     } else {
-      bg(0,y,W,ROW_H,'#ffffff');txt(r.label,18,y+ROW_H/2,15,'400','#1a1a18');txt(fmt(r.val),W-18,y+ROW_H/2,15,'600','#1a1a18','right');hl(y+ROW_H);y+=ROW_H;
+      bg(0,y,W,ROW_H,'#ffffff');
+      txt(r.label,18,y+ROW_H/2,15,'400','#1a1a18');
+      txt(fmt(r.val),W-18,y+ROW_H/2,15,'600','#1a1a18','right');
+      hl(y+ROW_H); y+=ROW_H;
     }
   });
 
-  y+=8;
-  bg(0,y,W,FOOTER_H,'#27500a');
-  txt('總合計',18,y+FOOTER_H/2,14,'500','#c0dd97');
-  txt(fmt(grand),W-18,y+FOOTER_H/2,30,'700','#ffffff','right');
-
   return {canvas, W, totalH:h};
+}
+
+function getFilename(ext){
+  const s = storeName();
+  return '帳務_'+(s ? s+'_' : '')+fileDate()+'.'+ext;
 }
 
 function saveImage(){
@@ -250,7 +251,7 @@ function saveImage(){
   } else {
     const a = document.createElement('a');
     a.href = dataURL;
-    a.download = '帳務_'+(storeName()||'')+dateStr.replace(/\//g,'-')+'.png';
+    a.download = getFilename('png');
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     showToast('圖片已下載');
   }
@@ -258,13 +259,15 @@ function saveImage(){
 
 async function shareImage(){
   const {canvas} = buildCanvas();
-  const filename = '帳務_'+(storeName()||'')+dateStr.replace(/\//g,'-')+'.png';
+  const filename = getFilename('png');
+  const store = storeName();
+  const title = '帳務記錄'+(store ? ' — '+store : '')+' '+dateStr;
   if(navigator.share && navigator.canShare){
     try{
       const blob = await new Promise(res=>canvas.toBlob(res,'image/png'));
-      const file = new File([blob],filename,{type:'image/png'});
+      const file = new File([blob], filename, {type:'image/png'});
       if(navigator.canShare({files:[file]})){
-        await navigator.share({files:[file],title:'帳務記錄 '+dateStr});
+        await navigator.share({files:[file], title});
         return;
       }
     } catch(e){
@@ -289,7 +292,7 @@ function savePDF(){
   const mmW=100, mmH=Math.round(totalH*(mmW/W));
   const pdf = new jsPDF({orientation:'portrait',unit:'mm',format:[mmW,mmH]});
   pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,mmW,mmH);
-  pdf.save('帳務_'+(storeName()||'')+dateStr.replace(/\//g,'-')+'.pdf');
+  pdf.save(getFilename('pdf'));
   showToast('PDF 已下載');
 }
 
