@@ -6,46 +6,53 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>帳務記錄</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  :root {
-    --bg: #f5f4f0; --surface: #ffffff; --surface2: #f1efe8;
-    --border: rgba(0,0,0,0.10); --border2: rgba(0,0,0,0.20);
-    --text: #1a1a18; --text2: #5f5e5a; --text3: #888780;
-    --green-dark: #27500a; --green-mid: #3b6d11;
-    --green-light: #eaf3de; --green-text: #c0dd97; --dark: #2c2c2a;
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{
+    --bg:#f5f4f0;--surface:#fff;--surface2:#f1efe8;
+    --border:rgba(0,0,0,0.10);--border2:rgba(0,0,0,0.20);
+    --text:#1a1a18;--text2:#5f5e5a;--text3:#888780;
+    --green-dark:#27500a;--green-mid:#3b6d11;
+    --green-light:#eaf3de;--green-text:#c0dd97;--dark:#2c2c2a;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1a18; --surface: #2c2c2a; --surface2: #222220;
-      --border: rgba(255,255,255,0.10); --border2: rgba(255,255,255,0.20);
-      --text: #f1efe8; --text2: #b4b2a9; --text3: #888780;
-    }
+  @media(prefers-color-scheme:dark){
+    :root{--bg:#1a1a18;--surface:#2c2c2a;--surface2:#222220;
+      --border:rgba(255,255,255,0.10);--border2:rgba(255,255,255,0.20);
+      --text:#f1efe8;--text2:#b4b2a9;--text3:#888780;}
   }
-  body { background: var(--bg); font-family: -apple-system, "PingFang TC", "Heiti TC", sans-serif; min-height: 100vh; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
-  .topbar { background: var(--dark); padding: 14px 18px; padding-top: calc(14px + env(safe-area-inset-top)); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-  .topbar-title { color: #f1efe8; font-size: 17px; font-weight: 600; }
-  .topbar-date { color: #888780; font-size: 13px; }
-  .total-banner { background: var(--green-dark); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
-  .total-label { font-size: 13px; color: var(--green-text); font-weight: 500; letter-spacing: 0.05em; }
-  .total-val { font-size: 26px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
-  .section-head { padding: 10px 18px 5px; font-size: 11px; font-weight: 600; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; background: var(--surface2); border-bottom: 0.5px solid var(--border); border-top: 0.5px solid var(--border); margin-top: 10px; }
-  .entry-row { display: flex; align-items: center; padding: 0 18px; height: 56px; background: var(--surface); border-bottom: 0.5px solid var(--border); gap: 12px; }
-  .label-text { flex: 1; font-size: 15px; color: var(--text); }
-  .num-input { width: 120px; height: 40px; border: 1px solid var(--border2); border-radius: 8px; background: var(--surface2); color: var(--text); font-size: 16px; font-weight: 600; text-align: right; padding: 0 12px; font-variant-numeric: tabular-nums; -webkit-appearance: none; appearance: none; outline: none; font-family: inherit; transition: border-color 0.15s; }
-  .num-input:focus { border-color: var(--green-mid); background: var(--surface); }
-  .num-input::placeholder { color: var(--text3); font-weight: 400; }
-  .subtotal-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; background: var(--green-light); border-bottom: 0.5px solid var(--border); }
-  @media (prefers-color-scheme: dark) { .subtotal-row { background: #1a3009; } .subtotal-label, .subtotal-val { color: #c0dd97 !important; } }
-  .subtotal-label { font-size: 13px; font-weight: 600; color: var(--green-dark); }
-  .subtotal-val { font-size: 16px; font-weight: 700; color: var(--green-dark); font-variant-numeric: tabular-nums; }
-  .btn-row { display: flex; gap: 10px; margin: 16px 18px 0; }
-  .btn-clear { flex: 1; padding: 14px; font-size: 15px; font-weight: 600; background: var(--surface); color: var(--text2); border: 1px solid var(--border2); border-radius: 10px; cursor: pointer; font-family: inherit; }
-  .btn-clear:active { background: var(--surface2); }
-  .btn-save { flex: 2; padding: 14px; font-size: 15px; font-weight: 600; background: var(--green-dark); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; }
-  .btn-save:active { background: var(--green-mid); }
-  .toast { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--dark); color: #f1efe8; padding: 10px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; white-space: nowrap; z-index: 100; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",sans-serif;min-height:100vh;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+  .topbar{background:var(--dark);padding:14px 18px;padding-top:calc(14px + env(safe-area-inset-top));display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+  .topbar-title{color:#f1efe8;font-size:17px;font-weight:600}
+  .topbar-date{color:#888780;font-size:13px}
+  .total-banner{background:var(--green-dark);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+  .total-label{font-size:13px;color:var(--green-text);font-weight:500;letter-spacing:.05em}
+  .total-val{font-size:26px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+  .section-head{padding:10px 18px 5px;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;background:var(--surface2);border-bottom:.5px solid var(--border);border-top:.5px solid var(--border);margin-top:10px}
+  .entry-row{display:flex;align-items:center;padding:0 18px;height:56px;background:var(--surface);border-bottom:.5px solid var(--border);gap:12px}
+  .label-text{flex:1;font-size:15px;color:var(--text)}
+  .num-input{width:120px;height:40px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:16px;font-weight:600;text-align:right;padding:0 12px;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;outline:none;font-family:inherit;transition:border-color .15s}
+  .num-input:focus{border-color:var(--green-mid);background:var(--surface)}
+  .num-input::placeholder{color:var(--text3);font-weight:400}
+  .subtotal-row{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--green-light);border-bottom:.5px solid var(--border)}
+  @media(prefers-color-scheme:dark){.subtotal-row{background:#1a3009}.subtotal-label,.subtotal-val{color:#c0dd97 !important}}
+  .subtotal-label{font-size:13px;font-weight:600;color:var(--green-dark)}
+  .subtotal-val{font-size:16px;font-weight:700;color:var(--green-dark);font-variant-numeric:tabular-nums}
+
+  /* Button area */
+  .btn-area{margin:16px 18px 0;display:flex;flex-direction:column;gap:10px}
+  .btn-row{display:flex;gap:10px}
+  .btn-clear{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
+  .btn-clear:active{background:var(--surface2)}
+  .btn-dl-row{display:flex;gap:10px}
+  .btn-png{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--green-dark);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-png:active{background:var(--green-mid)}
+  .btn-pdf{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--dark);color:#f1efe8;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-pdf:active{background:#444441}
+  .btn-icon{width:18px;height:18px;flex-shrink:0}
+
+  .toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#f1efe8;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:500;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:100}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -81,9 +88,20 @@
 <div class="entry-row"><span class="label-text">換錢</span><input class="num-input" type="number" inputmode="numeric" id="change" placeholder="0" oninput="calc()"></div>
 <div class="entry-row"><span class="label-text">倉庫零錢</span><input class="num-input" type="number" inputmode="numeric" id="storage" placeholder="0" oninput="calc()"></div>
 
-<div class="btn-row">
-  <button class="btn-clear" onclick="clearAll()">清除</button>
-  <button class="btn-save" onclick="saveImage()">儲存成圖片</button>
+<div class="btn-area">
+  <div class="btn-row">
+    <button class="btn-clear" onclick="clearAll()">清除</button>
+  </div>
+  <div class="btn-dl-row">
+    <button class="btn-png" onclick="saveImage()">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      儲存圖片
+    </button>
+    <button class="btn-pdf" onclick="savePDF()">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      儲存 PDF
+    </button>
+  </div>
 </div>
 
 <canvas id="canvas" style="display:none"></canvas>
@@ -91,10 +109,11 @@
 
 <script>
 const d = new Date();
-const dateStr = d.getFullYear() + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()).padStart(2,'0');
+const dateStr = d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
 document.getElementById('today-date').textContent = dateStr;
 
-function v(id){ return parseInt(document.getElementById(id).value)||0; }
+function v(id){return parseInt(document.getElementById(id).value)||0;}
+function fmt(n){return '$'+n.toLocaleString();}
 
 function calc(){
   const denom = v('d100')+v('d50')+v('d10')+v('d5')+v('d1');
@@ -105,142 +124,133 @@ function calc(){
 
 function clearAll(){
   ['d100','d50','d10','d5','d1','borrow','pos1','pos2','pen','bills','change','storage']
-    .forEach(id => document.getElementById(id).value = '');
+    .forEach(id=>document.getElementById(id).value='');
   calc();
 }
 
-function saveImage(){
-  const vals = {
-    d100: v('d100'), d50: v('d50'), d10: v('d10'), d5: v('d5'), d1: v('d1'),
-    borrow: v('borrow'), pos1: v('pos1'), pos2: v('pos2'),
-    pen: v('pen'), bills: v('bills'), change: v('change'), storage: v('storage')
+function getRows(){
+  const denom = v('d100')+v('d50')+v('d10')+v('d5')+v('d1');
+  const grand = denom+v('borrow')+v('pos1')+v('pos2')+v('pen')+v('bills')+v('change')+v('storage');
+  return {
+    denom, grand,
+    rows:[
+      {type:'section',label:'面額'},
+      {type:'row',label:'100',val:v('d100')},
+      {type:'row',label:'50',val:v('d50')},
+      {type:'row',label:'10',val:v('d10')},
+      {type:'row',label:'5',val:v('d5')},
+      {type:'row',label:'1',val:v('d1')},
+      {type:'sub',label:'合計',val:denom},
+      {type:'section',label:'交班項目'},
+      {type:'row',label:'借零抽屜',val:v('borrow')},
+      {type:'row',label:'收銀機 1',val:v('pos1')},
+      {type:'row',label:'收銀機 2',val:v('pos2')},
+      {type:'section',label:'庫存零錢'},
+      {type:'row',label:'鉛筆袋',val:v('pen')},
+      {type:'row',label:'百鈔',val:v('bills')},
+      {type:'row',label:'換錢',val:v('change')},
+      {type:'row',label:'倉庫零錢',val:v('storage')},
+    ]
   };
-  const denom = vals.d100+vals.d50+vals.d10+vals.d5+vals.d1;
-  const other = vals.borrow+vals.pos1+vals.pos2+vals.pen+vals.bills+vals.change+vals.storage;
-  const grand = denom + other;
+}
 
-  const rows = [
-    { type: 'section', label: '面額' },
-    { type: 'row', label: '100', val: vals.d100 },
-    { type: 'row', label: '50',  val: vals.d50 },
-    { type: 'row', label: '10',  val: vals.d10 },
-    { type: 'row', label: '5',   val: vals.d5 },
-    { type: 'row', label: '1',   val: vals.d1 },
-    { type: 'sub', label: '合計', val: denom },
-    { type: 'section', label: '交班項目' },
-    { type: 'row', label: '借零抽屜', val: vals.borrow },
-    { type: 'row', label: '收銀機 1', val: vals.pos1 },
-    { type: 'row', label: '收銀機 2', val: vals.pos2 },
-    { type: 'section', label: '庫存零錢' },
-    { type: 'row', label: '鉛筆袋',   val: vals.pen },
-    { type: 'row', label: '百鈔',     val: vals.bills },
-    { type: 'row', label: '換錢',     val: vals.change },
-    { type: 'row', label: '倉庫零錢', val: vals.storage },
-  ];
+function buildCanvas(){
+  const {denom,grand,rows} = getRows();
+  const sc=3, W=375;
+  const HEADER_H=54,BANNER_H=60,ROW_H=46,SEC_H=30,SUB_H=38,FOOTER_H=64;
+  let h=HEADER_H+BANNER_H+8;
+  rows.forEach(r=>{h+=r.type==='section'?SEC_H:r.type==='sub'?SUB_H:ROW_H;});
+  h+=FOOTER_H+16;
 
-  const sc = 3;
-  const W = 375;
-  const HEADER_H = 54;
-  const BANNER_H = 60;
-  const ROW_H = 46;
-  const SEC_H = 30;
-  const SUB_H = 38;
-  const FOOTER_H = 64;
-  const PAD_TOP = 8;
+  const canvas=document.getElementById('canvas');
+  canvas.width=W*sc; canvas.height=h*sc;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(sc,sc);
+  const font='"PingFang TC","Heiti TC",-apple-system,sans-serif';
 
-  let contentH = HEADER_H + BANNER_H + PAD_TOP;
-  rows.forEach(r => {
-    if(r.type==='section') contentH += SEC_H;
-    else if(r.type==='sub') contentH += SUB_H;
-    else contentH += ROW_H;
-  });
-  contentH += FOOTER_H + 16;
-
-  const canvas = document.getElementById('canvas');
-  canvas.width = W * sc;
-  canvas.height = contentH * sc;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(sc, sc);
-
-  const font = '"PingFang TC","Heiti TC",-apple-system,sans-serif';
-
-  function bg(x, y, w, h, color){ ctx.fillStyle = color; ctx.fillRect(x, y, w, h); }
-  function hline(y){ ctx.save(); ctx.strokeStyle = 'rgba(0,0,0,0.09)'; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); ctx.restore(); }
-  function txt(str, x, y, size, weight, color, align='left'){
-    ctx.save();
-    ctx.font = weight + ' ' + size + 'px ' + font;
-    ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'middle';
-    ctx.fillText(String(str), x, y);
-    ctx.restore();
+  function bg(x,y,w,hh,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,hh);}
+  function hl(y){ctx.save();ctx.strokeStyle='rgba(0,0,0,0.09)';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.restore();}
+  function txt(s,x,y,sz,wt,c,al='left'){
+    ctx.save();ctx.font=wt+' '+sz+'px '+font;
+    ctx.fillStyle=c;ctx.textAlign=al;ctx.textBaseline='middle';
+    ctx.fillText(String(s),x,y);ctx.restore();
   }
-  function fmt(n){ return '$' + n.toLocaleString(); }
 
-  let y = 0;
+  let y=0;
+  bg(0,y,W,HEADER_H,'#2c2c2a');
+  txt('帳務記錄',18,y+HEADER_H/2-5,17,'600','#f1efe8');
+  txt(dateStr,W-18,y+HEADER_H/2-5,13,'400','#888780','right');
+  y+=HEADER_H;
 
-  // Header bar
-  bg(0, y, W, HEADER_H, '#2c2c2a');
-  txt('帳務記錄', 18, y + HEADER_H/2 - 5, 17, '600', '#f1efe8');
-  txt(dateStr, W-18, y + HEADER_H/2 - 5, 13, '400', '#888780', 'right');
-  y += HEADER_H;
+  bg(0,y,W,BANNER_H,'#27500a');
+  txt('總合計',18,y+BANNER_H/2,13,'500','#c0dd97');
+  txt(fmt(grand),W-18,y+BANNER_H/2,27,'700','#ffffff','right');
+  y+=BANNER_H+8;
 
-  // Grand total banner
-  bg(0, y, W, BANNER_H, '#27500a');
-  txt('總合計', 18, y + BANNER_H/2, 13, '500', '#c0dd97');
-  txt(fmt(grand), W-18, y + BANNER_H/2, 27, '700', '#ffffff', 'right');
-  y += BANNER_H + PAD_TOP;
-
-  // Content rows
-  rows.forEach(r => {
-    if(r.type === 'section'){
-      bg(0, y, W, SEC_H, '#f1efe8');
-      txt(r.label, 18, y + SEC_H/2, 11, '600', '#888780');
-      hline(y + SEC_H);
-      y += SEC_H;
-    } else if(r.type === 'sub'){
-      bg(0, y, W, SUB_H, '#eaf3de');
-      txt(r.label, 18, y + SUB_H/2, 13, '600', '#27500a');
-      txt(fmt(r.val), W-18, y + SUB_H/2, 15, '700', '#27500a', 'right');
-      hline(y + SUB_H);
-      y += SUB_H;
+  rows.forEach(r=>{
+    if(r.type==='section'){
+      bg(0,y,W,SEC_H,'#f1efe8');
+      txt(r.label,18,y+SEC_H/2,11,'600','#888780');
+      hl(y+SEC_H); y+=SEC_H;
+    } else if(r.type==='sub'){
+      bg(0,y,W,SUB_H,'#eaf3de');
+      txt(r.label,18,y+SUB_H/2,13,'600','#27500a');
+      txt(fmt(r.val),W-18,y+SUB_H/2,15,'700','#27500a','right');
+      hl(y+SUB_H); y+=SUB_H;
     } else {
-      bg(0, y, W, ROW_H, '#ffffff');
-      txt(r.label, 18, y + ROW_H/2, 15, '400', '#1a1a18');
-      txt(fmt(r.val), W-18, y + ROW_H/2, 15, '600', '#1a1a18', 'right');
-      hline(y + ROW_H);
-      y += ROW_H;
+      bg(0,y,W,ROW_H,'#ffffff');
+      txt(r.label,18,y+ROW_H/2,15,'400','#1a1a18');
+      txt(fmt(r.val),W-18,y+ROW_H/2,15,'600','#1a1a18','right');
+      hl(y+ROW_H); y+=ROW_H;
     }
   });
 
-  // Footer total
-  y += 8;
-  bg(0, y, W, FOOTER_H, '#27500a');
-  txt('總合計', 18, y + FOOTER_H/2, 14, '500', '#c0dd97');
-  txt(fmt(grand), W-18, y + FOOTER_H/2, 30, '700', '#ffffff', 'right');
+  y+=8;
+  bg(0,y,W,FOOTER_H,'#27500a');
+  txt('總合計',18,y+FOOTER_H/2,14,'500','#c0dd97');
+  txt(fmt(grand),W-18,y+FOOTER_H/2,30,'700','#ffffff','right');
 
-  // Export
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const dataURL = canvas.toDataURL('image/png');
+  return {canvas, W, totalH: h};
+}
 
+function saveImage(){
+  const {canvas} = buildCanvas();
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+  const dataURL=canvas.toDataURL('image/png');
   if(isIOS){
-    // iOS: open in new tab so user can long-press to save
-    const win = window.open();
-    win.document.write('<img src="' + dataURL + '" style="max-width:100%;display:block">');
-    win.document.title = '帳務_' + dateStr.replace(/\//g,'-');
+    const win=window.open();
+    win.document.write('<img src="'+dataURL+'" style="max-width:100%;display:block">');
+    win.document.title='帳務_'+dateStr.replace(/\//g,'-');
     showToast('長按圖片即可儲存');
   } else {
-    const a = document.createElement('a');
-    a.download = '帳務_' + dateStr.replace(/\//g,'-') + '.png';
-    a.href = dataURL;
-    a.click();
+    const a=document.createElement('a');
+    a.download='帳務_'+dateStr.replace(/\//g,'-')+'.png';
+    a.href=dataURL; a.click();
     showToast('圖片已下載');
   }
 }
 
+function savePDF(){
+  if(typeof window.jspdf === 'undefined'){showToast('PDF 載入中，請稍後再試');return;}
+  const {canvas, W, totalH} = buildCanvas();
+  const {jsPDF} = window.jspdf;
+
+  const mmW = 100;
+  const mmH = Math.round(totalH * (mmW / W));
+  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:[mmW, mmH]});
+
+  const imgData = canvas.toDataURL('image/png');
+  pdf.addImage(imgData,'PNG',0,0,mmW,mmH);
+
+  const filename = '帳務_'+dateStr.replace(/\//g,'-')+'.pdf';
+  pdf.save(filename);
+  showToast('PDF 已下載');
+}
+
 function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
 </body>
