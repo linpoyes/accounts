@@ -38,8 +38,6 @@
   @media(prefers-color-scheme:dark){.subtotal-row{background:#1a3009}.subtotal-label,.subtotal-val{color:#c0dd97 !important}}
   .subtotal-label{font-size:13px;font-weight:600;color:var(--green-dark)}
   .subtotal-val{font-size:16px;font-weight:700;color:var(--green-dark);font-variant-numeric:tabular-nums}
-
-  /* Button area */
   .btn-area{margin:16px 18px 0;display:flex;flex-direction:column;gap:10px}
   .btn-row{display:flex;gap:10px}
   .btn-clear{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
@@ -50,7 +48,6 @@
   .btn-pdf{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--dark);color:#f1efe8;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
   .btn-pdf:active{background:#444441}
   .btn-icon{width:18px;height:18px;flex-shrink:0}
-
   .toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#f1efe8;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:500;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:100}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
@@ -95,11 +92,11 @@
   <div class="btn-dl-row">
     <button class="btn-png" onclick="saveImage()">
       <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      儲存圖片
+      下載圖片
     </button>
     <button class="btn-pdf" onclick="savePDF()">
       <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-      儲存 PDF
+      下載 PDF
     </button>
   </div>
 </div>
@@ -128,45 +125,39 @@ function clearAll(){
   calc();
 }
 
-function getRows(){
+function buildCanvas(){
   const denom = v('d100')+v('d50')+v('d10')+v('d5')+v('d1');
   const grand = denom+v('borrow')+v('pos1')+v('pos2')+v('pen')+v('bills')+v('change')+v('storage');
-  return {
-    denom, grand,
-    rows:[
-      {type:'section',label:'面額'},
-      {type:'row',label:'100',val:v('d100')},
-      {type:'row',label:'50',val:v('d50')},
-      {type:'row',label:'10',val:v('d10')},
-      {type:'row',label:'5',val:v('d5')},
-      {type:'row',label:'1',val:v('d1')},
-      {type:'sub',label:'合計',val:denom},
-      {type:'section',label:'交班項目'},
-      {type:'row',label:'借零抽屜',val:v('borrow')},
-      {type:'row',label:'收銀機 1',val:v('pos1')},
-      {type:'row',label:'收銀機 2',val:v('pos2')},
-      {type:'section',label:'庫存零錢'},
-      {type:'row',label:'鉛筆袋',val:v('pen')},
-      {type:'row',label:'百鈔',val:v('bills')},
-      {type:'row',label:'換錢',val:v('change')},
-      {type:'row',label:'倉庫零錢',val:v('storage')},
-    ]
-  };
-}
+  const rows = [
+    {type:'section',label:'面額'},
+    {type:'row',label:'100',val:v('d100')},
+    {type:'row',label:'50',val:v('d50')},
+    {type:'row',label:'10',val:v('d10')},
+    {type:'row',label:'5',val:v('d5')},
+    {type:'row',label:'1',val:v('d1')},
+    {type:'sub',label:'合計',val:denom},
+    {type:'section',label:'交班項目'},
+    {type:'row',label:'借零抽屜',val:v('borrow')},
+    {type:'row',label:'收銀機 1',val:v('pos1')},
+    {type:'row',label:'收銀機 2',val:v('pos2')},
+    {type:'section',label:'庫存零錢'},
+    {type:'row',label:'鉛筆袋',val:v('pen')},
+    {type:'row',label:'百鈔',val:v('bills')},
+    {type:'row',label:'換錢',val:v('change')},
+    {type:'row',label:'倉庫零錢',val:v('storage')},
+  ];
 
-function buildCanvas(){
-  const {denom,grand,rows} = getRows();
   const sc=3, W=375;
-  const HEADER_H=54,BANNER_H=60,ROW_H=46,SEC_H=30,SUB_H=38,FOOTER_H=64;
-  let h=HEADER_H+BANNER_H+8;
+  const HEADER_H=54, BANNER_H=60, ROW_H=46, SEC_H=30, SUB_H=38, FOOTER_H=64;
+  let h = HEADER_H+BANNER_H+8;
   rows.forEach(r=>{h+=r.type==='section'?SEC_H:r.type==='sub'?SUB_H:ROW_H;});
-  h+=FOOTER_H+16;
+  h += FOOTER_H+16;
 
-  const canvas=document.getElementById('canvas');
-  canvas.width=W*sc; canvas.height=h*sc;
-  const ctx=canvas.getContext('2d');
+  const canvas = document.getElementById('canvas');
+  canvas.width = W*sc; canvas.height = h*sc;
+  const ctx = canvas.getContext('2d');
   ctx.scale(sc,sc);
-  const font='"PingFang TC","Heiti TC",-apple-system,sans-serif';
+  const font = '"PingFang TC","Heiti TC",-apple-system,sans-serif';
 
   function bg(x,y,w,hh,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,hh);}
   function hl(y){ctx.save();ctx.strokeStyle='rgba(0,0,0,0.09)';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.restore();}
@@ -189,19 +180,11 @@ function buildCanvas(){
 
   rows.forEach(r=>{
     if(r.type==='section'){
-      bg(0,y,W,SEC_H,'#f1efe8');
-      txt(r.label,18,y+SEC_H/2,11,'600','#888780');
-      hl(y+SEC_H); y+=SEC_H;
+      bg(0,y,W,SEC_H,'#f1efe8');txt(r.label,18,y+SEC_H/2,11,'600','#888780');hl(y+SEC_H);y+=SEC_H;
     } else if(r.type==='sub'){
-      bg(0,y,W,SUB_H,'#eaf3de');
-      txt(r.label,18,y+SUB_H/2,13,'600','#27500a');
-      txt(fmt(r.val),W-18,y+SUB_H/2,15,'700','#27500a','right');
-      hl(y+SUB_H); y+=SUB_H;
+      bg(0,y,W,SUB_H,'#eaf3de');txt(r.label,18,y+SUB_H/2,13,'600','#27500a');txt(fmt(r.val),W-18,y+SUB_H/2,15,'700','#27500a','right');hl(y+SUB_H);y+=SUB_H;
     } else {
-      bg(0,y,W,ROW_H,'#ffffff');
-      txt(r.label,18,y+ROW_H/2,15,'400','#1a1a18');
-      txt(fmt(r.val),W-18,y+ROW_H/2,15,'600','#1a1a18','right');
-      hl(y+ROW_H); y+=ROW_H;
+      bg(0,y,W,ROW_H,'#ffffff');txt(r.label,18,y+ROW_H/2,15,'400','#1a1a18');txt(fmt(r.val),W-18,y+ROW_H/2,15,'600','#1a1a18','right');hl(y+ROW_H);y+=ROW_H;
     }
   });
 
@@ -210,38 +193,33 @@ function buildCanvas(){
   txt('總合計',18,y+FOOTER_H/2,14,'500','#c0dd97');
   txt(fmt(grand),W-18,y+FOOTER_H/2,30,'700','#ffffff','right');
 
-  return {canvas, W, totalH: h};
+  return {canvas, W, totalH:h};
+}
+
+function triggerDownload(dataURL, filename){
+  const a = document.createElement('a');
+  a.href = dataURL;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function saveImage(){
   const {canvas} = buildCanvas();
-  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-  const dataURL=canvas.toDataURL('image/png');
-  if(isIOS){
-    const win=window.open();
-    win.document.write('<img src="'+dataURL+'" style="max-width:100%;display:block">');
-    win.document.title='帳務_'+dateStr.replace(/\//g,'-');
-    showToast('長按圖片即可儲存');
-  } else {
-    const a=document.createElement('a');
-    a.download='帳務_'+dateStr.replace(/\//g,'-')+'.png';
-    a.href=dataURL; a.click();
-    showToast('圖片已下載');
-  }
+  const dataURL = canvas.toDataURL('image/png');
+  const filename = '帳務_'+dateStr.replace(/\//g,'-')+'.png';
+  triggerDownload(dataURL, filename);
+  showToast('圖片已下載');
 }
 
 function savePDF(){
   if(typeof window.jspdf === 'undefined'){showToast('PDF 載入中，請稍後再試');return;}
   const {canvas, W, totalH} = buildCanvas();
   const {jsPDF} = window.jspdf;
-
-  const mmW = 100;
-  const mmH = Math.round(totalH * (mmW / W));
-  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:[mmW, mmH]});
-
-  const imgData = canvas.toDataURL('image/png');
-  pdf.addImage(imgData,'PNG',0,0,mmW,mmH);
-
+  const mmW=100, mmH=Math.round(totalH*(mmW/W));
+  const pdf = new jsPDF({orientation:'portrait',unit:'mm',format:[mmW,mmH]});
+  pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,mmW,mmH);
   const filename = '帳務_'+dateStr.replace(/\//g,'-')+'.pdf';
   pdf.save(filename);
   showToast('PDF 已下載');
@@ -249,7 +227,7 @@ function savePDF(){
 
 function showToast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
+  t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
