@@ -21,34 +21,43 @@
       --border:rgba(255,255,255,0.10);--border2:rgba(255,255,255,0.20);
       --text:#f1efe8;--text2:#b4b2a9;--text3:#888780;}
   }
+  html{font-size:80%}
   body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",sans-serif;min-height:100vh;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
   .topbar{background:var(--dark);padding:14px 18px;padding-top:calc(14px + env(safe-area-inset-top));display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-  .topbar-title{color:#f1efe8;font-size:17px;font-weight:600}
-  .topbar-date{color:#888780;font-size:13px}
+  .topbar-title{color:#f1efe8;font-size:1.7rem;font-weight:600}
+  .topbar-date{color:#888780;font-size:1.3rem}
   .total-banner{background:var(--green-dark);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-  .total-label{font-size:13px;color:var(--green-text);font-weight:500;letter-spacing:.05em}
-  .total-val{font-size:26px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
-  .section-head{padding:10px 18px 5px;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;background:var(--surface2);border-bottom:.5px solid var(--border);border-top:.5px solid var(--border);margin-top:10px}
+  .total-label{font-size:1.3rem;color:var(--green-text);font-weight:500;letter-spacing:.05em}
+  .total-val{font-size:2.6rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+  .section-head{padding:10px 18px 5px;font-size:1.1rem;font-weight:600;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;background:var(--surface2);border-bottom:.5px solid var(--border);border-top:.5px solid var(--border);margin-top:10px}
   .entry-row{display:flex;align-items:center;padding:0 18px;height:56px;background:var(--surface);border-bottom:.5px solid var(--border);gap:12px}
-  .label-text{flex:1;font-size:15px;color:var(--text)}
-  .num-input{width:120px;height:40px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:16px;font-weight:600;text-align:right;padding:0 12px;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;outline:none;font-family:inherit;transition:border-color .15s}
+  .label-text{flex:1;font-size:1.5rem;color:var(--text)}
+  .num-input{width:120px;height:40px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:1.6rem;font-weight:600;text-align:right;padding:0 12px;font-variant-numeric:tabular-nums;-webkit-appearance:none;appearance:none;outline:none;font-family:inherit;transition:border-color .15s}
   .num-input:focus{border-color:var(--green-mid);background:var(--surface)}
   .num-input::placeholder{color:var(--text3);font-weight:400}
   .subtotal-row{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--green-light);border-bottom:.5px solid var(--border)}
   @media(prefers-color-scheme:dark){.subtotal-row{background:#1a3009}.subtotal-label,.subtotal-val{color:#c0dd97 !important}}
-  .subtotal-label{font-size:13px;font-weight:600;color:var(--green-dark)}
-  .subtotal-val{font-size:16px;font-weight:700;color:var(--green-dark);font-variant-numeric:tabular-nums}
+  .subtotal-label{font-size:1.3rem;font-weight:600;color:var(--green-dark)}
+  .subtotal-val{font-size:1.6rem;font-weight:700;color:var(--green-dark);font-variant-numeric:tabular-nums}
   .btn-area{margin:16px 18px 0;display:flex;flex-direction:column;gap:10px}
   .btn-row{display:flex;gap:10px}
-  .btn-clear{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
+  .btn-clear{flex:1;padding:14px;font-size:1.5rem;font-weight:600;background:var(--surface);color:var(--text2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;font-family:inherit}
   .btn-clear:active{background:var(--surface2)}
   .btn-dl-row{display:flex;gap:10px}
-  .btn-png{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--green-dark);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-png{flex:1;padding:14px;font-size:1.5rem;font-weight:600;background:var(--green-dark);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
   .btn-png:active{background:var(--green-mid)}
-  .btn-pdf{flex:1;padding:14px;font-size:15px;font-weight:600;background:var(--dark);color:#f1efe8;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-pdf{flex:1;padding:14px;font-size:1.5rem;font-weight:600;background:var(--dark);color:#f1efe8;border:none;border-radius:10px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
   .btn-pdf:active{background:#444441}
   .btn-icon{width:18px;height:18px;flex-shrink:0}
-  .toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#f1efe8;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:500;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:100}
+
+  /* iOS long-press overlay */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+  .overlay.show{display:flex}
+  .overlay img{max-width:100%;max-height:60vh;border-radius:12px;object-fit:contain}
+  .overlay-tip{color:#fff;font-size:1.5rem;margin-top:16px;text-align:center;line-height:1.6}
+  .overlay-close{margin-top:20px;padding:12px 32px;background:#fff;color:#1a1a18;border:none;border-radius:20px;font-size:1.5rem;font-weight:600;cursor:pointer;font-family:inherit}
+
+  .toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#f1efe8;padding:10px 20px;border-radius:20px;font-size:1.4rem;font-weight:500;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:100}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -99,6 +108,13 @@
       下載 PDF
     </button>
   </div>
+</div>
+
+<!-- iOS long-press overlay -->
+<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+  <img id="preview-img" src="" alt="帳務記錄">
+  <p class="overlay-tip">長按圖片 → 選「加入照片」<br>即可儲存到相簿</p>
+  <button class="overlay-close" onclick="document.getElementById('overlay').classList.remove('show')">關閉</button>
 </div>
 
 <canvas id="canvas" style="display:none"></canvas>
@@ -154,10 +170,10 @@ function buildCanvas(){
   h += FOOTER_H+16;
 
   const canvas = document.getElementById('canvas');
-  canvas.width = W*sc; canvas.height = h*sc;
-  const ctx = canvas.getContext('2d');
+  canvas.width=W*sc; canvas.height=h*sc;
+  const ctx=canvas.getContext('2d');
   ctx.scale(sc,sc);
-  const font = '"PingFang TC","Heiti TC",-apple-system,sans-serif';
+  const font='"PingFang TC","Heiti TC",-apple-system,sans-serif';
 
   function bg(x,y,w,hh,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,hh);}
   function hl(y){ctx.save();ctx.strokeStyle='rgba(0,0,0,0.09)';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.restore();}
@@ -196,38 +212,41 @@ function buildCanvas(){
   return {canvas, W, totalH:h};
 }
 
-function triggerDownload(dataURL, filename){
-  const a = document.createElement('a');
-  a.href = dataURL;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
 function saveImage(){
   const {canvas} = buildCanvas();
   const dataURL = canvas.toDataURL('image/png');
-  const filename = '帳務_'+dateStr.replace(/\//g,'-')+'.png';
-  triggerDownload(dataURL, filename);
-  showToast('圖片已下載');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if(isIOS){
+    document.getElementById('preview-img').src = dataURL;
+    document.getElementById('overlay').classList.add('show');
+  } else {
+    const a = document.createElement('a');
+    a.href = dataURL;
+    a.download = '帳務_'+dateStr.replace(/\//g,'-')+'.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    showToast('圖片已下載');
+  }
+}
+
+function closeOverlay(e){
+  if(e.target === document.getElementById('overlay'))
+    document.getElementById('overlay').classList.remove('show');
 }
 
 function savePDF(){
-  if(typeof window.jspdf === 'undefined'){showToast('PDF 載入中，請稍後再試');return;}
-  const {canvas, W, totalH} = buildCanvas();
+  if(typeof window.jspdf==='undefined'){showToast('PDF 載入中，請稍後再試');return;}
+  const {canvas,W,totalH} = buildCanvas();
   const {jsPDF} = window.jspdf;
   const mmW=100, mmH=Math.round(totalH*(mmW/W));
   const pdf = new jsPDF({orientation:'portrait',unit:'mm',format:[mmW,mmH]});
   pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,mmW,mmH);
-  const filename = '帳務_'+dateStr.replace(/\//g,'-')+'.pdf';
-  pdf.save(filename);
+  pdf.save('帳務_'+dateStr.replace(/\//g,'-')+'.pdf');
   showToast('PDF 已下載');
 }
 
 function showToast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
+  t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
