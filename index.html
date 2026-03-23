@@ -228,7 +228,8 @@ async function submitToSheet(){
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify(payload)
     });
-    showToast('已送出到資料庫 ✓');
+    showToast('已送出 ✓');
+    setTimeout(()=>shareImage(), 800);
   } catch(e) {
     showToast('送出失敗，請確認網路');
   }
