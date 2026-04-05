@@ -110,7 +110,7 @@ body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",san
 .atab{padding:12px 16px;font-size:1.3rem;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0}
 .atab.on{color:var(--green-dark);border-bottom-color:var(--green-dark);font-weight:700}
 .asec{display:none}.asec.on{display:block}
-.chart-wrap{margin:16px 18px;background:var(--surface);border-radius:12px;border:.5px solid var(--border);padding:16px}
+.chart-wrap{margin:16px 18px;background:var(--surface);border-radius:12px;border:.5px solid var(--border);padding:16px;min-height:240px}
 .chart-title{font-size:1.4rem;font-weight:600;color:var(--text);margin-bottom:12px}
 .tbl-wrap{margin:0 18px 16px;background:var(--surface);border-radius:12px;border:.5px solid var(--border);overflow:hidden}
 .tbl-head{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surface2);border-bottom:.5px solid var(--border);padding:10px 14px}
@@ -321,7 +321,7 @@ async function submitToSheet(){
   const btn=document.getElementById('btn-submit');
   btn.textContent='送出中...';btn.style.opacity='.7';btn.style.pointerEvents='none';
   try{
-    await fetch(SCRIPT_URL+'?data='+encodeURIComponent(params.toString()),{method:'GET',mode:'no-cors'});
+    await fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'});
     document.getElementById('suc-modal').classList.add('on');
   }catch(e){showToast('送出失敗，請重試');}
   btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> 送出';
@@ -396,11 +396,11 @@ function renderAll(rows){
     const sec=document.createElement('div');sec.className='asec';sec.id='asec-'+store;
     const cw=document.createElement('div');cw.className='chart-wrap';
     const ct=document.createElement('div');ct.className='chart-title';ct.textContent=store+' 每日趨勢';
-    const cv=document.createElement('canvas');cv.id='chart-'+idx;cv.style.height='200px';
+    const cv=document.createElement('canvas');cv.id='chart-'+idx;cv.height=200;cv.width=800;
     cw.appendChild(ct);cw.appendChild(cv);sec.appendChild(cw);sec.appendChild(makeTable(storeRows,false));content.appendChild(sec);
     setTimeout(()=>{
       const sorted=[...storeRows].sort((a,b)=>a.date>b.date?1:-1);
-      charts[store]=new Chart(cv,{type:'line',data:{labels:sorted.map(r=>r.date.slice(5)),datasets:[{data:sorted.map(r=>Number(r.grand||0)),borderColor:COLORS[idx],backgroundColor:COLORS[idx]+'22',borderWidth:2,pointRadius:4,pointBackgroundColor:COLORS[idx],fill:true,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{ticks:{font:{size:10},callback:v=>'$'+v.toLocaleString()}}}}});
+      charts[store]=new Chart(cv,{type:'line',data:{labels:sorted.map(r=>r.date.slice(5)),datasets:[{data:sorted.map(r=>Number(r.grand||0)),borderColor:COLORS[idx],backgroundColor:COLORS[idx]+'22',borderWidth:2,pointRadius:4,pointBackgroundColor:COLORS[idx],fill:true,tension:0.3}]},options:{responsive:false,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{ticks:{font:{size:10},callback:v=>'$'+v.toLocaleString()}}}}});
     },100);
   });
 }
