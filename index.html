@@ -383,8 +383,8 @@ function renderAll(rows){
   const todayRows=rows.filter(r=>r.date===dateStr);
   const monthRows=rows.filter(r=>String(r.date).startsWith(monthStr));
   document.getElementById('s-count').textContent=todayRows.length+' 筆';
-  document.getElementById('s-today').textContent=fmt(todayRows.reduce((s,r)=>s+Number(r.grand),0));
-  document.getElementById('s-month').textContent=fmt(monthRows.reduce((s,r)=>s+Number(r.grand),0));
+  document.getElementById('s-today').textContent=fmt(todayRows.reduce((s,r)=>s+Number(r.grand||0),0));
+  document.getElementById('s-month').textContent=fmt(monthRows.reduce((s,r)=>s+Number(r.grand||0),0));
   const tabBar=document.getElementById('atab-bar');const content=document.getElementById('admin-data');
   tabBar.innerHTML='';content.innerHTML='';
   Object.values(charts).forEach(c=>c.destroy());charts={};
@@ -400,7 +400,7 @@ function renderAll(rows){
     cw.appendChild(ct);cw.appendChild(cv);sec.appendChild(cw);sec.appendChild(makeTable(storeRows,false));content.appendChild(sec);
     setTimeout(()=>{
       const sorted=[...storeRows].sort((a,b)=>a.date>b.date?1:-1);
-      charts[store]=new Chart(cv,{type:'line',data:{labels:sorted.map(r=>r.date.slice(5)),datasets:[{data:sorted.map(r=>Number(r.grand)),borderColor:COLORS[idx],backgroundColor:COLORS[idx]+'22',borderWidth:2,pointRadius:4,pointBackgroundColor:COLORS[idx],fill:true,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{ticks:{font:{size:10},callback:v=>'$'+v.toLocaleString()}}}}});
+      charts[store]=new Chart(cv,{type:'line',data:{labels:sorted.map(r=>r.date.slice(5)),datasets:[{data:sorted.map(r=>Number(r.grand||0)),borderColor:COLORS[idx],backgroundColor:COLORS[idx]+'22',borderWidth:2,pointRadius:4,pointBackgroundColor:COLORS[idx],fill:true,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{ticks:{font:{size:10},callback:v=>'$'+v.toLocaleString()}}}}});
     },100);
   });
 }
@@ -416,7 +416,7 @@ function makeTable(rows,showStore){
   sorted.forEach(r=>{
     const row=document.createElement('div');row.className='tbl-row'+(r.date===dateStr?' today':'');
     const day=days[new Date(r.date.replace(/\//g,'-')).getDay()];
-    row.innerHTML=showStore?`<span>${r.date.slice(5)}</span><span>${r.store.replace('門市','')}</span><span>${fmt(r.grand)}</span>`:`<span>${r.date.slice(5)}</span><span>週${day}</span><span>${fmt(r.grand)}</span>`;
+    row.innerHTML=showStore?`<span>${r.date.slice(5)}</span><span>${r.store.replace('門市','')}</span><span>${fmt(Number(r.grand||0))}</span>`:`<span>${r.date.slice(5)}</span><span>週${day}</span><span>${fmt(Number(r.grand||0))}</span>`;
     wrap.appendChild(row);
   });
   return wrap;
