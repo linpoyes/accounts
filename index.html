@@ -88,7 +88,7 @@
   .tut-close{width:100%;padding:15px;background:#2c2c2e;border:none;border-radius:12px;color:#fff;font-size:1.6rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px}
 
   /* === ADMIN LOCK === */
-  .lock{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+  .lock{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
   .lock.hide{display:none}
   .lock-icon{width:56px;height:56px;background:rgba(255,255,255,0.08);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
   .lock-title{color:#f1efe8;font-size:2rem;font-weight:700;margin-bottom:6px}
@@ -96,7 +96,7 @@
   .lock-input{width:100%;max-width:280px;height:48px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);border-radius:10px;color:#f1efe8;font-size:1.8rem;font-weight:600;text-align:center;letter-spacing:0.2em;font-family:inherit;outline:none;margin-bottom:12px}
   .lock-btn{width:100%;max-width:280px;padding:14px;background:#27500a;color:#fff;border:none;border-radius:10px;font-size:1.6rem;font-weight:600;cursor:pointer;font-family:inherit}
   .lock-btn:active{background:#3b6d11}
-  .lock-err{color:#f09595;font-size:1.3rem;margin-top:8px;height:20px}
+  .lock-err{color:#f09595;font-size:1.3rem;margin-top:8px;height:20px;margin-bottom:calc(56px + env(safe-area-inset-bottom))}
 
   /* === ADMIN CONTENT === */
   .admin-topbar{background:var(--dark);padding:12px 18px;padding-top:calc(12px + env(safe-area-inset-top));display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
