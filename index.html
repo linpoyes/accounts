@@ -113,11 +113,11 @@ body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",san
 
 
 .tbl-wrap{margin:0 18px 16px;background:var(--surface);border-radius:12px;border:.5px solid var(--border);overflow:hidden}
-.tbl-head{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surface2);border-bottom:.5px solid var(--border);padding:10px 14px}
+.tbl-head{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surface2);border-bottom:.5px solid var(--border);padding:10px 14px}.denom-tag{background:var(--surface2);border:.5px solid var(--border2);border-radius:6px;padding:3px 8px;font-size:1.15rem;color:var(--text2)}.denom-tag span{color:var(--text);font-weight:600}
 .tbl-head span{font-size:1.1rem;font-weight:600;color:var(--text3)}
 .tbl-head span:last-child{text-align:right}
 .tbl-head span:nth-child(2){text-align:center}
-.tbl-row{display:grid;grid-template-columns:1fr 1fr 1fr;padding:12px 14px;border-bottom:.5px solid var(--border)}
+.tbl-row{padding:12px 14px;border-bottom:.5px solid var(--border)}.tbl-row-top{display:grid;grid-template-columns:1fr 1fr 1fr}.tbl-denom{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row span{font-size:1.35rem;color:var(--text)}
 .tbl-row span:last-child{text-align:right;font-weight:600;color:var(--green-dark)}
@@ -399,13 +399,7 @@ function renderAll(rows){
   const allSec=document.createElement('div');allSec.className='asec on';allSec.id='asec-all';allSec.appendChild(makeTable(rows,true));content.appendChild(allSec);
   STORES.forEach((store)=>{
     const storeRows=rows.filter(r=>r.store===store);
-    const tab=document.createElement('div');tab.className='atab';tab.textContent=store.replace('門市','');tab.onclick=()=>switchAdminTab(store);tabBar.appendChild(tab);
-    const sec=document.createElement('div');sec.className='asec';sec.id='asec-'+store;
-    sec.appendChild(makeTable(storeRows,false));content.appendChild(sec);
-  });
-}
-
-function makeTable(rows,showStore){
+    const tab=document.createElement('div');tab.className='atab';tab.tfunction makeTable(rows,showStore){
   const sorted=[...rows].sort((a,b)=>a.date>b.date?-1:1);
   const wrap=document.createElement('div');wrap.className='tbl-wrap';
   const head=document.createElement('div');head.className='tbl-head';
@@ -414,11 +408,30 @@ function makeTable(rows,showStore){
   if(!sorted.length){const e=document.createElement('div');e.className='empty';e.textContent='尚無資料';wrap.appendChild(e);return wrap;}
   const days=['日','一','二','三','四','五','六'];
   sorted.forEach(r=>{
-    const row=document.createElement('div');row.className='tbl-row'+(r.date===dateStr?' today':'');
+    const row=document.createElement('div');
+    row.className='tbl-row'+(r.date===dateStr?' today':'');
     row.style.cursor='pointer';
-    const day=days[new Date(r.date.replace(/\//g,'-')).getDay()];
+    const day=days[new Date(r.date.replace(/\/g,'-')).getDay()];
+    // denom tags
+    const denomItems=[
+      {l:'$100',v:r.d100},{l:'$50',v:r.d50},{l:'$10',v:r.d10},
+      {l:'$5',v:r.d5},{l:'$1',v:r.d1},
+      {l:'借零',v:r.borrow},{l:'機1',v:r.pos1},{l:'機2',v:r.pos2},
+      {l:'鉛筆袋',v:r.pen},{l:'百鈔',v:r.bills},{l:'換錢',v:r.change},{l:'倉庫',v:r.storage}
+    ];
+    const denomHTML=denomItems.filter(d=>Number(d.v||0)>0).map(d=>`<span class='denom-tag'>${d.l} <span>$${Number(d.v||0).toLocaleString()}</span></span>`).join('');
     if(showStore){
-      row.innerHTML=`<span>${r.date.slice(5)} 週${day}</span><span>${r.store.replace('門市','')}</span><span>${fmt(Number(r.grand||0))}</span>`;
+      row.innerHTML=`<div class='tbl-row-top'><span style='font-size:1.35rem;color:var(--text)'>${r.date.slice(5)} 週${day}</span><span style='font-size:1.35rem;color:var(--text2)'>${r.store.replace('門市','')}</span><span style='font-size:1.35rem;font-weight:600;color:var(--green-dark);text-align:right'>${fmt(Number(r.grand||0))}</span></div>${denomHTML?`<div class='tbl-denom'>${denomHTML}</div>`:''}`;
+    } else {
+      row.innerHTML=`<div class='tbl-row-top'><span style='font-size:1.35rem;color:var(--text)'>${r.date.slice(5)} 週${day}</span><span style='font-size:1.35rem;font-weight:600;color:var(--green-dark);text-align:right'>${fmt(Number(r.grand||0))}</span><span style='color:var(--text3);font-size:1.2rem;text-align:right'>▶</span></div>${denomHTML?`<div class='tbl-denom'>${denomHTML}</div>`:''}`;
+    }
+    row.onclick=()=>showDetail(r);
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+
+;
     } else {
       row.innerHTML=`<span>${r.date.slice(5)} 週${day}</span><span>${fmt(Number(r.grand||0))}</span><span style='color:var(--text3);font-size:1.2rem'>▶</span>`;
     }
