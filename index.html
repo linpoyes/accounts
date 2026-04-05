@@ -6,114 +6,117 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>帳務記錄</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-size:16px}
-/* 頁籤 */
-#tabs{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:#111;border-top:1px solid #333;z-index:100}
-#tabs button{flex:1;background:none;border:none;color:#555;font-size:11px;cursor:pointer;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:3px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:rgba(0,0,0,0.1)}
+html,body{width:100%;max-width:100%;overflow-x:hidden;font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-size:16px}
+/* 隱藏 number input 的 spinner */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:none}
+
+#tabs{display:flex;position:fixed;bottom:0;left:0;right:0;height:56px;background:#111;border-top:1px solid #333;z-index:100}
+#tabs button{flex:1;background:none;border:none;color:#555;font-size:11px;cursor:pointer;padding:4px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-appearance:none}
 #tabs button.active{color:#c0dd97}
-#tabs button svg{display:block;width:22px;height:22px}
-/* 頁面 */
-.page{display:none;padding-bottom:80px}
+#tabs svg{width:22px;height:22px;display:block}
+
+.page{display:none;padding-bottom:70px;width:100%;overflow-x:hidden}
 .page.active{display:block}
-/* 頂部 */
-.header{background:#111;padding:16px;position:sticky;top:0;z-index:50}
+
+.header{background:#111;padding:14px 16px;position:sticky;top:0;z-index:50;width:100%}
 .header h1{font-size:17px;font-weight:600;margin-bottom:10px}
-.header select{width:100%;height:40px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:16px;font-weight:600;padding:0 10px}
-/* 總計 */
-.total-bar{background:#1e4008;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.header select{width:100%;height:40px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:16px;font-weight:600;padding:0 10px;-webkit-appearance:none;appearance:none}
+
+.total-bar{background:#1e4008;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;width:100%}
 .total-bar span:first-child{font-size:13px;color:#c0dd97}
 .total-bar span:last-child{font-size:28px;font-weight:700}
-/* 區塊標題 */
-.section-title{padding:8px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #2a2a28;border-bottom:1px solid #2a2a28;margin-top:8px}
-/* 輸入列 */
-.input-row{display:flex;align-items:center;padding:0 16px;height:52px;background:#1c1c1a;border-bottom:1px solid #2a2a28}
-.input-row label{flex:1;font-size:15px}
-.input-row input{width:110px;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:16px;font-weight:600;text-align:right;padding:0 10px;-webkit-appearance:none;appearance:none}
-/* 按鈕 */
-.btn-area{padding:16px;display:flex;flex-direction:column;gap:10px}
-.btn-submit{height:52px;background:#1a5fa5;color:#fff;border:none;border-radius:10px;font-size:17px;font-weight:700;width:100%;cursor:pointer}
-.btn-submit:active{background:#1050a0}
-.btn-row{display:flex;gap:10px}
-.btn-clear{flex:1;height:48px;background:#2a2a28;color:#ccc;border:1px solid #444;border-radius:10px;font-size:15px;cursor:pointer}
-.btn-clear:active{background:#333}
-.btn-share{flex:1;height:48px;background:#1e4008;color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer}
-.btn-share:active{background:#2a5010}
-.btn-tut{height:46px;background:transparent;color:#555;border:1px dashed #333;border-radius:10px;font-size:14px;cursor:pointer;width:100%}
-/* 後台 */
-.admin-header{background:#111;padding:14px 16px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center}
+
+.sec-title{padding:8px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #2a2a28;border-bottom:1px solid #2a2a28;margin-top:8px;width:100%}
+
+.inp-row{display:flex;align-items:center;padding:0 16px;height:52px;background:#1c1c1a;border-bottom:1px solid #2a2a28;width:100%}
+.inp-row label{flex:1;font-size:15px;min-width:0}
+.inp-row input{width:100px;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:16px;font-weight:600;text-align:right;padding:0 10px;flex-shrink:0}
+.inp-row input:focus{border-color:#3a7a1a;outline:none}
+
+.btn-area{padding:16px;display:flex;flex-direction:column;gap:10px;width:100%}
+.btn-submit{height:52px;background:#1a5fa5;color:#fff;border:none;border-radius:10px;font-size:17px;font-weight:700;width:100%;cursor:pointer;-webkit-appearance:none}
+.btn-row{display:flex;gap:10px;width:100%}
+.btn-clear{flex:1;height:48px;background:#2a2a28;color:#ccc;border:1px solid #444;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
+.btn-share{flex:1;height:48px;background:#1e4008;color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
+.btn-tut{height:46px;background:transparent;color:#555;border:1px dashed #333;border-radius:10px;font-size:14px;cursor:pointer;width:100%;-webkit-appearance:none}
+
+.admin-header{background:#111;padding:14px 16px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;width:100%}
 .admin-header h1{font-size:17px;font-weight:600}
-.admin-header button{width:36px;height:36px;background:#2a2a28;border:none;border-radius:8px;color:#f0efe8;cursor:pointer;font-size:18px}
-.stat-bar{background:#1e4008;padding:12px 16px;display:flex;gap:20px}
-.stat-item .stat-label{font-size:11px;color:#c0dd97}
-.stat-item .stat-value{font-size:16px;font-weight:700}
-.store-tabs{display:flex;background:#1c1c1a;border-bottom:1px solid #333;overflow-x:auto}
-.store-tab{padding:10px 14px;font-size:13px;color:#555;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit}
+.admin-header button{width:36px;height:36px;background:#2a2a28;border:none;border-radius:8px;color:#f0efe8;cursor:pointer;font-size:18px;-webkit-appearance:none}
+.stat-bar{background:#1e4008;padding:12px 16px;display:flex;gap:20px;width:100%}
+.stat-item .sl{font-size:11px;color:#c0dd97}
+.stat-item .sv{font-size:16px;font-weight:700}
+.store-tabs{display:flex;background:#1c1c1a;border-bottom:1px solid #333;overflow-x:auto;width:100%}
+.store-tab{padding:10px 14px;font-size:13px;color:#555;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit;-webkit-appearance:none}
 .store-tab.active{color:#c0dd97;border-bottom-color:#c0dd97;font-weight:600}
-.store-section{display:none}.store-section.active{display:block}
-.record-list{margin:12px 16px;background:#1c1c1a;border-radius:10px;overflow:hidden;border:1px solid #333}
-.list-header{display:grid;grid-template-columns:1fr 1fr 1fr;background:#222;padding:10px 12px;border-bottom:1px solid #333}
-.list-header span{font-size:11px;font-weight:600;color:#555}
-.list-header span:last-child,.record-row .col-total{text-align:right}
-.list-header span:nth-child(2),.record-row .col-store{text-align:center}
-.record-row{padding:10px 12px;border-bottom:1px solid #2a2a28;cursor:pointer}
-.record-row:last-child{border-bottom:none}
-.record-row.today{background:#162a05}
-.record-top{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center}
-.record-top span{font-size:13px;color:#ccc}
-.col-total{font-weight:600;color:#c0dd97!important}
-.record-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.store-sec{display:none;width:100%}.store-sec.active{display:block}
+.rec-list{margin:12px 16px;background:#1c1c1a;border-radius:10px;overflow:hidden;border:1px solid #333}
+.rec-hd{display:grid;grid-template-columns:1fr 1fr 1fr;background:#222;padding:10px 12px;border-bottom:1px solid #333}
+.rec-hd span{font-size:11px;font-weight:600;color:#555}
+.rec-hd span:last-child{text-align:right}
+.rec-hd span:nth-child(2){text-align:center}
+.rec-row{padding:10px 12px;border-bottom:1px solid #2a2a28;cursor:pointer;width:100%}
+.rec-row:last-child{border-bottom:none}
+.rec-row.today{background:#162a05}
+.rec-top{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center}
+.rec-top span{font-size:13px;color:#ccc}
+.rec-top .ctotal{text-align:right;font-weight:600;color:#c0dd97}
+.rec-top .cstore{text-align:center;color:#888;font-size:12px}
+.rec-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .tag{background:#222;border:1px solid #333;border-radius:4px;padding:2px 6px;font-size:11px;color:#888}
 .tag b{color:#ddd;font-weight:600}
 .empty{padding:32px;text-align:center;color:#444;font-size:14px}
 .loading{padding:40px;text-align:center;color:#444;font-size:14px}
-/* 彈窗 */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;padding:20px}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
-.modal-inner{background:#1c1c1a;border-radius:14px;width:100%;max-width:380px;overflow:hidden;max-height:90vh;overflow-y:auto}
+.modal-inner{background:#1c1c1a;border-radius:14px;width:100%;max-width:400px;overflow:hidden;max-height:90vh;overflow-y:auto}
 .modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #333}
 .modal-head h2{font-size:16px;font-weight:700}
-.modal-head button{background:#2a2a28;border:none;color:#aaa;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;font-family:inherit}
-.detail-sec{padding:6px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #333;border-bottom:1px solid #333;margin-top:2px}
-.detail-row{display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #2a2a28;font-size:14px}
-.detail-row span:last-child{font-weight:600}
-.detail-total{display:flex;justify-content:space-between;padding:14px 16px;background:#1e4008;font-size:14px}
-.detail-total span:first-child{color:#c0dd97}
-.detail-total span:last-child{font-size:20px;font-weight:700}
-/* 成功 */
+.modal-head button{background:#2a2a28;border:none;color:#aaa;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;-webkit-appearance:none}
+.d-sec{padding:6px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #333;border-bottom:1px solid #333;margin-top:2px}
+.d-row{display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #2a2a28;font-size:14px}
+.d-row span:last-child{font-weight:600}
+.d-total{display:flex;justify-content:space-between;padding:14px 16px;background:#1e4008;font-size:14px}
+.d-total span:first-child{color:#c0dd97}
+.d-total span:last-child{font-size:20px;font-weight:700}
+
 .suc-body{text-align:center;padding:28px 16px}
-.suc-icon{width:56px;height:56px;background:#1e4008;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px}
+.suc-icon{width:56px;height:56px;background:#1e4008;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;color:#c0dd97}
 .suc-body h2{font-size:18px;font-weight:700;margin-bottom:6px}
 .suc-body p{font-size:13px;color:#555;margin-bottom:20px}
 .suc-body .btn-submit{margin-bottom:8px}
-.suc-body .btn-clear{height:44px;width:100%}
-/* 密碼 */
+.suc-body .btn-skip{height:44px;width:100%;background:#2a2a28;color:#888;border:none;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
+
 .lock-body{text-align:center;padding:32px 20px}
-.lock-body .icon{font-size:32px;margin-bottom:12px}
+.lock-body .ico{font-size:32px;margin-bottom:12px}
 .lock-body h2{font-size:18px;font-weight:700;margin-bottom:6px}
 .lock-body p{font-size:13px;color:#555;margin-bottom:24px}
-.lock-body input{width:100%;height:46px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:18px;font-weight:600;text-align:center;letter-spacing:4px;font-family:inherit;margin-bottom:10px;padding:0}
+.lock-body input{width:100%;height:46px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:18px;font-weight:600;text-align:center;letter-spacing:4px;font-family:inherit;margin-bottom:10px;padding:0;-webkit-appearance:none;appearance:none}
 .lock-body .btn-submit{margin-bottom:0}
 .lock-err{color:#f08080;font-size:13px;margin-top:8px;min-height:18px}
-/* 全螢幕 */
-.fullscreen{display:none;position:fixed;inset:0;z-index:300;overflow-y:auto}
+
+.fullscreen{display:none;position:fixed;inset:0;z-index:300;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .fullscreen.show{display:block}
-.tut-page{background:#000;padding:20px 16px 40px}
-.tut-page h1{font-size:19px;font-weight:700;margin-bottom:4px}
-.tut-page .sub{font-size:13px;color:#444;margin-bottom:18px}
+.tut-wrap{background:#000;padding:20px 16px 40px;min-height:100%}
+.tut-wrap h1{font-size:19px;font-weight:700;margin-bottom:4px}
+.tut-wrap .sub{font-size:13px;color:#444;margin-bottom:18px}
 .tut-step{background:#1c1c1a;border-radius:12px;margin-bottom:12px;overflow:hidden}
 .tut-step-head{display:flex;align-items:center;gap:10px;padding:12px 14px 8px}
-.step-num{width:24px;height:24px;border-radius:50%;background:#1a5fa5;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-n{width:24px;height:24px;border-radius:50%;background:#1a5fa5;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .tut-step-head span{font-size:15px;font-weight:600}
 .tut-step .desc{font-size:13px;color:#555;padding:0 14px 12px;line-height:1.6}
 .tut-step img{width:100%;display:block}
-.tut-close{display:block;width:100%;height:50px;background:#2a2a28;border:none;border-radius:10px;color:#f0efe8;font-size:16px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit}
-.img-page{background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-.img-page img{max-width:100%;max-height:65vh;border-radius:10px}
-.img-page p{font-size:14px;color:#ccc;margin-top:14px;text-align:center;line-height:1.7}
-.img-page button{margin-top:18px;padding:11px 30px;background:#fff;color:#111;border:none;border-radius:20px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
-/* 吐司 */
-.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:16px;font-size:14px;z-index:400;display:none}
+.tut-close{display:block;width:100%;height:50px;background:#2a2a28;border:none;border-radius:10px;color:#f0efe8;font-size:16px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;-webkit-appearance:none}
+.img-wrap{background:rgba(0,0,0,.9);min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.img-wrap img{max-width:100%;max-height:65vh;border-radius:10px}
+.img-wrap p{font-size:14px;color:#ccc;margin-top:14px;text-align:center;line-height:1.7}
+.img-wrap button{margin-top:18px;padding:11px 30px;background:#fff;color:#111;border:none;border-radius:20px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none}
+
+.toast{position:fixed;bottom:66px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:16px;font-size:14px;z-index:400;display:none;white-space:nowrap}
 .toast.show{display:block}
 </style>
 </head>
@@ -121,33 +124,30 @@ body{font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-
 
 <div id="page-entry" class="page active">
   <div class="header">
-    <h1 id="date-display">帳務記錄</h1>
-    <select id="store-select">
+    <h1 id="hdr-date">帳務記錄</h1>
+    <select id="sel-store">
       <option value="">選擇門市</option>
       <option value="銅鑼圈門市">銅鑼圈門市</option>
       <option value="福龍門市">福龍門市</option>
       <option value="易仕門市">易仕門市</option>
     </select>
   </div>
-  <div class="total-bar">
-    <span>總合計</span>
-    <span id="grand-total">0</span>
-  </div>
-  <div class="section-title">面額</div>
-  <div class="input-row"><label>100</label><input type="number" inputmode="numeric" id="f-d100" placeholder="0"></div>
-  <div class="input-row"><label>50</label><input type="number" inputmode="numeric" id="f-d50" placeholder="0"></div>
-  <div class="input-row"><label>10</label><input type="number" inputmode="numeric" id="f-d10" placeholder="0"></div>
-  <div class="input-row"><label>5</label><input type="number" inputmode="numeric" id="f-d5" placeholder="0"></div>
-  <div class="input-row"><label>1</label><input type="number" inputmode="numeric" id="f-d1" placeholder="0"></div>
-  <div class="section-title">交班項目</div>
-  <div class="input-row"><label>借零抽屜</label><input type="number" inputmode="numeric" id="f-borrow" placeholder="0"></div>
-  <div class="input-row"><label>收銀機 1</label><input type="number" inputmode="numeric" id="f-pos1" placeholder="0"></div>
-  <div class="input-row"><label>收銀機 2</label><input type="number" inputmode="numeric" id="f-pos2" placeholder="0"></div>
-  <div class="section-title">庫存零錢</div>
-  <div class="input-row"><label>鉛筆袋</label><input type="number" inputmode="numeric" id="f-pen" placeholder="0"></div>
-  <div class="input-row"><label>百鈔</label><input type="number" inputmode="numeric" id="f-bills" placeholder="0"></div>
-  <div class="input-row"><label>換錢</label><input type="number" inputmode="numeric" id="f-change" placeholder="0"></div>
-  <div class="input-row"><label>倉庫零錢</label><input type="number" inputmode="numeric" id="f-storage" placeholder="0"></div>
+  <div class="total-bar"><span>總合計</span><span id="grand">0</span></div>
+  <div class="sec-title">面額</div>
+  <div class="inp-row"><label>100</label><input type="number" inputmode="numeric" id="i-d100" placeholder="0"></div>
+  <div class="inp-row"><label>50</label><input type="number" inputmode="numeric" id="i-d50" placeholder="0"></div>
+  <div class="inp-row"><label>10</label><input type="number" inputmode="numeric" id="i-d10" placeholder="0"></div>
+  <div class="inp-row"><label>5</label><input type="number" inputmode="numeric" id="i-d5" placeholder="0"></div>
+  <div class="inp-row"><label>1</label><input type="number" inputmode="numeric" id="i-d1" placeholder="0"></div>
+  <div class="sec-title">交班項目</div>
+  <div class="inp-row"><label>借零抽屜</label><input type="number" inputmode="numeric" id="i-borrow" placeholder="0"></div>
+  <div class="inp-row"><label>收銀機 1</label><input type="number" inputmode="numeric" id="i-pos1" placeholder="0"></div>
+  <div class="inp-row"><label>收銀機 2</label><input type="number" inputmode="numeric" id="i-pos2" placeholder="0"></div>
+  <div class="sec-title">庫存零錢</div>
+  <div class="inp-row"><label>鉛筆袋</label><input type="number" inputmode="numeric" id="i-pen" placeholder="0"></div>
+  <div class="inp-row"><label>百鈔</label><input type="number" inputmode="numeric" id="i-bills" placeholder="0"></div>
+  <div class="inp-row"><label>換錢</label><input type="number" inputmode="numeric" id="i-change" placeholder="0"></div>
+  <div class="inp-row"><label>倉庫零錢</label><input type="number" inputmode="numeric" id="i-storage" placeholder="0"></div>
   <div class="btn-area">
     <button class="btn-submit" id="btn-submit">⬆ 送出</button>
     <div class="btn-row">
@@ -164,12 +164,12 @@ body{font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-
     <button id="btn-refresh">↻</button>
   </div>
   <div class="stat-bar">
-    <div class="stat-item"><div class="stat-label">今日筆數</div><div class="stat-value" id="stat-count">—</div></div>
-    <div class="stat-item"><div class="stat-label">今日總計</div><div class="stat-value" id="stat-today">—</div></div>
-    <div class="stat-item"><div class="stat-label">本月總計</div><div class="stat-value" id="stat-month">—</div></div>
+    <div class="stat-item"><div class="sl">今日筆數</div><div class="sv" id="s-count">—</div></div>
+    <div class="stat-item"><div class="sl">今日總計</div><div class="sv" id="s-today">—</div></div>
+    <div class="stat-item"><div class="sl">本月總計</div><div class="sv" id="s-month">—</div></div>
   </div>
   <div class="store-tabs" id="store-tabs"></div>
-  <div id="admin-content"><div class="loading">點後台管理進入</div></div>
+  <div id="admin-data"><div class="loading">點後台管理進入</div></div>
 </div>
 
 <div id="tabs">
@@ -186,12 +186,12 @@ body{font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-
 <div id="modal-lock" class="modal">
   <div class="modal-inner">
     <div class="lock-body">
-      <div class="icon">🔒</div>
+      <div class="ico">🔒</div>
       <h2>後台管理</h2>
       <p>請輸入管理密碼</p>
-      <input type="password" inputmode="numeric" id="pw-input" placeholder="••••••••" maxlength="12">
+      <input type="password" inputmode="numeric" id="pw-inp" placeholder="••••••••" maxlength="12">
       <button class="btn-submit" id="btn-pw">進入</button>
-      <div class="lock-err" id="pw-error"></div>
+      <div class="lock-err" id="pw-err"></div>
     </div>
   </div>
 </div>
@@ -200,40 +200,40 @@ body{font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-
   <div class="modal-inner">
     <div class="modal-head">
       <h2 id="detail-title">詳細記錄</h2>
-      <button id="btn-close-detail">✕</button>
+      <button id="btn-detail-close">✕</button>
     </div>
-    <div id="detail-content"></div>
+    <div id="detail-body"></div>
   </div>
 </div>
 
-<div id="modal-success" class="modal">
+<div id="modal-suc" class="modal">
   <div class="modal-inner">
     <div class="suc-body">
       <div class="suc-icon">✓</div>
       <h2>送出成功</h2>
       <p>資料已寫入試算表<br>要分享這筆記錄嗎？</p>
       <button class="btn-submit" id="btn-suc-share">分享圖片</button>
-      <button class="btn-clear" id="btn-suc-skip">略過</button>
+      <button class="btn-skip" id="btn-suc-skip">略過</button>
     </div>
   </div>
 </div>
 
 <div id="page-tut" class="fullscreen">
-  <div class="tut-page">
+  <div class="tut-wrap">
     <h1>加入主畫面教學</h1>
     <div class="sub">使用 Safari 瀏覽器，依以下步驟操作</div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-num">1</div><span>點右下角「⋯」按鈕</span></div><div class="desc">Safari 網址列右側點選三個點的選單按鈕</div><img id="tut-img1" src="" alt="步驟1"></div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-num">2</div><span>選「分享」</span></div><div class="desc">在跳出的選單中點選「分享」</div><img id="tut-img2" src="" alt="步驟2"></div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-num">3</div><span>點「檢視更多內容」</span></div><div class="desc">在分享選單圖示列，點最右邊「檢視更多內容」</div><img id="tut-img3" src="" alt="步驟3"></div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-num">4</div><span>點「加入主畫面」→「新增」</span></div><div class="desc">往下滑找到「加入主畫面」，點選後右上角按「新增」完成</div><img id="tut-img4" src="" alt="步驟4"></div>
+    <div class="tut-step"><div class="tut-step-head"><div class="step-n">1</div><span>點右下角「⋯」按鈕</span></div><div class="desc">Safari 網址列右側點選三個點的選單按鈕</div></div>
+    <div class="tut-step"><div class="tut-step-head"><div class="step-n">2</div><span>選「分享」</span></div><div class="desc">在跳出的選單中點選「分享」</div></div>
+    <div class="tut-step"><div class="tut-step-head"><div class="step-n">3</div><span>點「檢視更多內容」</span></div><div class="desc">在分享選單圖示列，點最右邊「檢視更多內容」</div></div>
+    <div class="tut-step"><div class="tut-step-head"><div class="step-n">4</div><span>點「加入主畫面」→「新增」</span></div><div class="desc">往下滑找到「加入主畫面」，點選後右上角按「新增」完成</div></div>
     <button class="tut-close" id="btn-tut-close">關閉</button>
   </div>
 </div>
 
 <div id="page-img" class="fullscreen">
-  <div class="img-page">
-    <img id="share-img" src="" alt="帳務記錄">
-    <p>長按圖片 → 選「加入照片」<br>即可儲存到相簿</p>
+  <div class="img-wrap">
+    <img id="share-img" src="" alt="">
+    <p>長按圖片 → 選「加入照片」儲存到相簿</p>
     <button id="btn-img-close">關閉</button>
   </div>
 </div>
@@ -242,146 +242,96 @@ body{font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-
 <div class="toast" id="toast"></div>
 
 <script>
-// 教學圖片（避免 HTML 太長影響解析）
-// img removed
-// img removed
-// img removed
-// img removed
-
-var GAS= + GAS + ;
+var GAS='https://script.google.com/macros/s/AKfycbxGN4yJueCrYqP3DaYJCNoAiMfKez1T69SXROpshZBJoK2eh6U2s5bUpLEH-gZe-ERV/exec';
 var PW='72839168';
 var STORES=['銅鑼圈門市','福龍門市','易仕門市'];
 var IDS=['d100','d50','d10','d5','d1','borrow','pos1','pos2','pen','bills','change','storage'];
-var LABELS=['$100','$50','$10','$5','$1','借零','機1','機2','鉛筆袋','百鈔','換錢','倉庫'];
+var LBLS=['$100','$50','$10','$5','$1','借零','機1','機2','鉛筆袋','百鈔','換錢','倉庫'];
+var DAYS=['日','一','二','三','四','五','六'];
 
-var d=new Date();
-var TODAY=d.getFullYear()+'/'+pad(d.getMonth()+1)+'/'+pad(d.getDate());
+var now=new Date();
+var TODAY=now.getFullYear()+'/'+pad(now.getMonth()+1)+'/'+pad(now.getDate());
 var MONTH=TODAY.slice(0,7);
-function pad(n){return String(n).padStart(2,'0');}
-function fmt(n){return '$'+Number(n||0).toLocaleString();}
-function gv(id){return parseInt(document.getElementById('f-'+id).value)||0;}
+function pad(n){return ('0'+n).slice(-2);}
+function fmt(n){return '$'+(+n||0).toLocaleString();}
+function gv(id){return parseInt(document.getElementById('i-'+id).value)||0;}
+function $(id){return document.getElementById(id);}
 
-document.getElementById('date-display').textContent='帳務記錄 — '+TODAY;
-var savedStore=localStorage.getItem('store');
-if(savedStore) document.getElementById('store-select').value=savedStore;
-document.getElementById('store-select').onchange=function(){localStorage.setItem('store',this.value);};
+$('hdr-date').textContent='帳務記錄 — '+TODAY;
+var sv=localStorage.getItem('store');
+if(sv) $('sel-store').value=sv;
+$('sel-store').onchange=function(){localStorage.setItem('store',this.value);};
 
 function calcTotal(){
-  var t=0;
-  IDS.forEach(function(id){t+=gv(id);});
-  document.getElementById('grand-total').textContent=t.toLocaleString();
+  var t=0; IDS.forEach(function(id){t+=gv(id);}); $('grand').textContent=t.toLocaleString();
 }
 IDS.forEach(function(id){
-  var el=document.getElementById('f-'+id);
-  if(el){el.oninput=calcTotal;}
+  var el=$('i-'+id); if(el) el.oninput=calcTotal;
 });
 
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast show';
-  setTimeout(function(){t.className='toast';},2500);
-}
-function showModal(id){document.getElementById(id).className='modal show';}
-function hideModal(id){document.getElementById(id).className='modal';}
-function showPage(id){document.getElementById(id).className='fullscreen show';}
-function hidePage(id){document.getElementById(id).className='fullscreen';}
+function toast(msg){var t=$('toast');t.textContent=msg;t.className='toast show';setTimeout(function(){t.className='toast';},2500);}
+function showModal(id){$(id).className='modal show';}
+function hideModal(id){$(id).className='modal';}
+function showFull(id){$(id).className='fullscreen show';}
+function hideFull(id){$(id).className='fullscreen';}
 
-// 切頁
-document.getElementById('tab-entry').onclick=function(){
-  document.getElementById('page-entry').className='page active';
-  document.getElementById('page-admin').className='page';
-  document.getElementById('tab-entry').className='active';
-  document.getElementById('tab-admin').className='';
+$('tab-entry').onclick=function(){
+  $('page-entry').className='page active';$('page-admin').className='page';
+  $('tab-entry').className='active';$('tab-admin').className='';
 };
-document.getElementById('tab-admin').onclick=function(){
-  document.getElementById('page-entry').className='page';
-  document.getElementById('page-admin').className='page active';
-  document.getElementById('tab-entry').className='';
-  document.getElementById('tab-admin').className='active';
-  if(!sessionStorage.getItem('ok')){showModal('modal-lock');}
-  else{loadData();}
+$('tab-admin').onclick=function(){
+  $('page-entry').className='page';$('page-admin').className='page active';
+  $('tab-entry').className='';$('tab-admin').className='active';
+  if(!sessionStorage.getItem('ok')){showModal('modal-lock');}else{loadData();}
 };
-
-// 密碼
-document.getElementById('btn-pw').onclick=function(){
-  var v=document.getElementById('pw-input').value;
-  if(v===PW){sessionStorage.setItem('ok','1');hideModal('modal-lock');loadData();}
-  else{document.getElementById('pw-error').textContent='密碼錯誤';document.getElementById('pw-input').value='';}
+$('btn-pw').onclick=function(){
+  if($('pw-inp').value===PW){sessionStorage.setItem('ok','1');hideModal('modal-lock');loadData();}
+  else{$('pw-err').textContent='密碼錯誤';$('pw-inp').value='';}
 };
-document.getElementById('pw-input').onkeydown=function(e){if(e.key==='Enter')document.getElementById('btn-pw').onclick();};
-
-// 清除
-document.getElementById('btn-clear').onclick=function(){
-  IDS.forEach(function(id){document.getElementById('f-'+id).value='';});
-  calcTotal();
-};
-
-// 送出
-document.getElementById('btn-submit').onclick=function(){
-  var store=document.getElementById('store-select').value;
-  if(!store){showToast('請先選擇門市');return;}
-  var grand=0;
-  IDS.forEach(function(id){grand+=gv(id);});
+$('pw-inp').onkeydown=function(e){if(e.key==='Enter')$('btn-pw').onclick();};
+$('btn-clear').onclick=function(){IDS.forEach(function(id){$('i-'+id).value='';});calcTotal();};
+$('btn-submit').onclick=function(){
+  var store=$('sel-store').value;
+  if(!store){toast('請先選擇門市');return;}
+  var grand=0; IDS.forEach(function(id){grand+=gv(id);});
   var p='date='+encodeURIComponent(TODAY)+'&store='+encodeURIComponent(store)+'&grand='+grand;
   IDS.forEach(function(id){p+='&'+id+'='+gv(id);});
-  var btn=document.getElementById('btn-submit');
-  btn.textContent='送出中...';btn.disabled=true;
+  var btn=$('btn-submit'); btn.textContent='送出中...'; btn.disabled=true;
   fetch(GAS+'?'+p,{method:'GET',mode:'no-cors'})
-    .then(function(){showModal('modal-success');})
-    .catch(function(){showToast('送出失敗');})
+    .then(function(){showModal('modal-suc');})
+    .catch(function(){toast('送出失敗');})
     .finally(function(){btn.textContent='⬆ 送出';btn.disabled=false;});
 };
-
-// 成功彈窗
-document.getElementById('btn-suc-share').onclick=function(){hideModal('modal-success');doShare();};
-document.getElementById('btn-suc-skip').onclick=function(){hideModal('modal-success');};
-
-// 關閉詳細
-document.getElementById('btn-close-detail').onclick=function(){hideModal('modal-detail');};
-
-// 重整
-document.getElementById('btn-refresh').onclick=loadData;
-
-// 教學
-document.getElementById('btn-tut').onclick=function(){showPage('page-tut');};
-document.getElementById('btn-tut-close').onclick=function(){hidePage('page-tut');};
-document.getElementById('btn-img-close').onclick=function(){hidePage('page-img');};
-
-// 分享
-document.getElementById('btn-share').onclick=doShare;
+$('btn-share').onclick=function(){doShare();};
+$('btn-tut').onclick=function(){showFull('page-tut');};
+$('btn-tut-close').onclick=function(){hideFull('page-tut');};
+$('btn-img-close').onclick=function(){hideFull('page-img');};
+$('btn-detail-close').onclick=function(){hideModal('modal-detail');};
+$('btn-suc-share').onclick=function(){hideModal('modal-suc');doShare();};
+$('btn-suc-skip').onclick=function(){hideModal('modal-suc');};
+$('btn-refresh').onclick=function(){loadData();};
 
 function buildCanvas(){
-  var store=document.getElementById('store-select').value||'帳務記錄';
-  var grand=0;IDS.forEach(function(id){grand+=gv(id);});
+  var store=$('sel-store').value||'帳務記錄';
+  var grand=0; IDS.forEach(function(id){grand+=gv(id);});
   var W=375,sc=3;
-  var rows=[
-    {s:'面額'},
-    {l:'100',v:gv('d100')},{l:'50',v:gv('d50')},{l:'10',v:gv('d10')},{l:'5',v:gv('d5')},{l:'1',v:gv('d1')},
-    {s:'交班項目'},
-    {l:'借零抽屜',v:gv('borrow')},{l:'收銀機 1',v:gv('pos1')},{l:'收銀機 2',v:gv('pos2')},
-    {s:'庫存零錢'},
-    {l:'鉛筆袋',v:gv('pen')},{l:'百鈔',v:gv('bills')},{l:'換錢',v:gv('change')},{l:'倉庫零錢',v:gv('storage')}
-  ];
-  var H=70+60+8+16;rows.forEach(function(r){H+=r.s?28:44;});
-  var cv=document.getElementById('cv');cv.width=W*sc;cv.height=H*sc;
-  var ctx=cv.getContext('2d');ctx.scale(sc,sc);
+  var rows=[{s:'面額'},{l:'100',v:gv('d100')},{l:'50',v:gv('d50')},{l:'10',v:gv('d10')},{l:'5',v:gv('d5')},{l:'1',v:gv('d1')},{s:'交班項目'},{l:'借零抽屜',v:gv('borrow')},{l:'收銀機 1',v:gv('pos1')},{l:'收銀機 2',v:gv('pos2')},{s:'庫存零錢'},{l:'鉛筆袋',v:gv('pen')},{l:'百鈔',v:gv('bills')},{l:'換錢',v:gv('change')},{l:'倉庫零錢',v:gv('storage')}];
+  var H=70+60+8+16; rows.forEach(function(r){H+=r.s?28:44;});
+  var cv=$('cv'); cv.width=W*sc; cv.height=H*sc;
+  var ctx=cv.getContext('2d'); ctx.scale(sc,sc);
   var F='"PingFang TC",-apple-system,sans-serif';
   function R(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
   function L(y){ctx.save();ctx.strokeStyle='#2a2a28';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.restore();}
   function T(s,x,y,sz,fw,c,a){ctx.save();ctx.font=fw+' '+sz+'px '+F;ctx.fillStyle=c;ctx.textAlign=a||'left';ctx.textBaseline='middle';ctx.fillText(''+s,x,y);ctx.restore();}
   var y=0;
-  R(0,y,W,70,'#111110');T('帳務記錄',16,y+16,12,'400','#555');T(TODAY,W-16,y+16,12,'400','#555','right');T(store,16,y+52,17,'700','#f0efe8');y+=70;
-  R(0,y,W,60,'#1e4008');T('總合計',16,y+30,13,'500','#c0dd97');T(fmt(grand),W-16,y+30,25,'700','#fff','right');y+=60+8;
-  rows.forEach(function(r){
-    if(r.s){R(0,y,W,28,'#222');T(r.s,16,y+14,11,'600','#555');L(y+28);y+=28;}
-    else{R(0,y,W,44,'#1c1c1a');T(r.l,16,y+22,14,'400','#f0efe8');T(fmt(r.v),W-16,y+22,14,'600','#f0efe8','right');L(y+44);y+=44;}
-  });
+  R(0,y,W,70,'#111110'); T('帳務記錄',16,y+16,12,'400','#555'); T(TODAY,W-16,y+16,12,'400','#555','right'); T(store,16,y+52,17,'700','#f0efe8'); y+=70;
+  R(0,y,W,60,'#1e4008'); T('總合計',16,y+30,13,'500','#c0dd97'); T(fmt(grand),W-16,y+30,25,'700','#fff','right'); y+=68;
+  rows.forEach(function(r){if(r.s){R(0,y,W,28,'#222');T(r.s,16,y+14,11,'600','#555');L(y+28);y+=28;}else{R(0,y,W,44,'#1c1c1a');T(r.l,16,y+22,14,'400','#f0efe8');T(fmt(r.v),W-16,y+22,14,'600','#f0efe8','right');L(y+44);y+=44;}});
   return cv;
 }
-
 function doShare(){
   var cv=buildCanvas();
-  var store=(document.getElementById('store-select').value||'帳務').replace('門市','');
+  var store=($('sel-store').value||'帳務').replace('門市','');
   var name='帳務_'+store+'_'+TODAY.replace(/\//g,'-')+'.png';
   if(navigator.share&&navigator.canShare){
     cv.toBlob(function(blob){
@@ -391,96 +341,63 @@ function doShare(){
     },'image/png');
   }else{showImgPage(cv);}
 }
-function showImgPage(cv){
-  document.getElementById('share-img').src=cv.toDataURL('image/png');
-  showPage('page-img');
-}
+function showImgPage(cv){$('share-img').src=cv.toDataURL('image/png');showFull('page-img');}
 
-// 後台
 function loadData(){
-  document.getElementById('store-tabs').innerHTML='';
-  document.getElementById('admin-content').innerHTML='<div class="loading"><p>載入中...</p></div>';
-  fetch(GAS+'?action=read')
-    .then(function(r){return r.json();})
-    .then(function(json){
-      if(json.status!=='ok')throw new Error();
-      renderAdmin(json.rows);
-    })
-    .catch(function(){
-      document.getElementById('admin-content').innerHTML='<div class="empty">載入失敗，請重試</div>';
-      showToast('載入失敗');
-    });
+  $('store-tabs').innerHTML=''; $('admin-data').innerHTML='<div class="loading">載入中...</div>';
+  fetch(GAS+'?action=read').then(function(r){return r.json();}).then(function(j){
+    if(j.status!=='ok')throw 0;
+    renderAdmin(j.rows);
+  }).catch(function(){$('admin-data').innerHTML='<div class="empty">載入失敗</div>';toast('載入失敗');});
 }
-
-var DAYS=['日','一','二','三','四','五','六'];
 function renderAdmin(rows){
-  var todayR=rows.filter(function(r){return r.date===TODAY;});
-  var monthR=rows.filter(function(r){return String(r.date).indexOf(MONTH)===0;});
-  document.getElementById('stat-count').textContent=todayR.length+' 筆';
-  document.getElementById('stat-today').textContent=fmt(todayR.reduce(function(s,r){return s+Number(r.grand||0);},0));
-  document.getElementById('stat-month').textContent=fmt(monthR.reduce(function(s,r){return s+Number(r.grand||0);},0));
-  var tabsEl=document.getElementById('store-tabs');
-  var contEl=document.getElementById('admin-content');
-  tabsEl.innerHTML='';contEl.innerHTML='';
-  function addTab(lbl,id,rows2,first){
-    var bt=document.createElement('button');
-    bt.className='store-tab'+(first?' active':'');
-    bt.textContent=lbl;
-    var sec=document.createElement('div');
-    sec.className='store-section'+(first?' active':'');
-    sec.id='sec-'+id;
-    sec.appendChild(makeList(rows2,lbl==='全部'));
-    contEl.appendChild(sec);
+  var tr=rows.filter(function(r){return r.date===TODAY;});
+  var mr=rows.filter(function(r){return r.date.indexOf(MONTH)===0;});
+  $('s-count').textContent=tr.length+' 筆';
+  $('s-today').textContent=fmt(tr.reduce(function(s,r){return s+Number(r.grand||0);},0));
+  $('s-month').textContent=fmt(mr.reduce(function(s,r){return s+Number(r.grand||0);},0));
+  var tabsEl=$('store-tabs'), dataEl=$('admin-data');
+  tabsEl.innerHTML=''; dataEl.innerHTML='';
+  function add(lbl,id,rows2,first){
+    var bt=document.createElement('button'); bt.className='store-tab'+(first?' active':''); bt.textContent=lbl;
+    var sec=document.createElement('div'); sec.className='store-sec'+(first?' active':''); sec.appendChild(makeList(rows2,lbl==='全部'));
     bt.onclick=function(){
       document.querySelectorAll('.store-tab').forEach(function(x){x.className='store-tab';});
-      document.querySelectorAll('.store-section').forEach(function(x){x.className='store-section';});
-      bt.className='store-tab active';
-      sec.className='store-section active';
+      document.querySelectorAll('.store-sec').forEach(function(x){x.className='store-sec';});
+      bt.className='store-tab active'; sec.className='store-sec active';
     };
-    tabsEl.appendChild(bt);
+    tabsEl.appendChild(bt); dataEl.appendChild(sec);
   }
-  addTab('全部','all',rows,true);
-  STORES.forEach(function(s){addTab(s.replace('門市',''),s,rows.filter(function(r){return r.store===s;}),false);});
+  add('全部','all',rows,true);
+  STORES.forEach(function(s){add(s.replace('門市',''),s,rows.filter(function(r){return r.store===s;}),false);});
 }
 function makeList(rows,showStore){
   var sorted=[].concat(rows).sort(function(a,b){return a.date>b.date?-1:1;});
-  var wrap=document.createElement('div');wrap.className='record-list';
-  var hd=document.createElement('div');hd.className='list-header';
+  var wrap=document.createElement('div'); wrap.className='rec-list';
+  var hd=document.createElement('div'); hd.className='rec-hd';
   hd.innerHTML=showStore?'<span>日期</span><span>門市</span><span>總合計</span>':'<span>日期</span><span>總合計</span><span></span>';
   wrap.appendChild(hd);
   if(!sorted.length){var e=document.createElement('div');e.className='empty';e.textContent='尚無資料';wrap.appendChild(e);return wrap;}
   sorted.forEach(function(r){
-    var row=document.createElement('div');
-    row.className='record-row'+(r.date===TODAY?' today':'');
-    var dt=new Date(r.date.replace(/\//g,'-'));
-    var day=DAYS[dt.getDay()];
-    var tags='';
-    IDS.forEach(function(id,i){
-      var v=Number(r[id]||0);
-      if(v>0)tags+='<span class="tag">'+LABELS[i]+' <b>$'+v.toLocaleString()+'</b></span>';
-    });
-    var top=showStore
-      ?('<span>'+r.date.slice(5)+' 週'+day+'</span><span class="col-store">'+r.store.replace('門市','')+'</span><span class="col-total">'+fmt(r.grand)+'</span>')
-      :('<span>'+r.date.slice(5)+' 週'+day+'</span><span class="col-total">'+fmt(r.grand)+'</span><span>▶</span>');
-    row.innerHTML='<div class="record-top">'+top+'</div>'+(tags?'<div class="record-tags">'+tags+'</div>':'');
+    var row=document.createElement('div'); row.className='rec-row'+(r.date===TODAY?' today':'');
+    var day=DAYS[new Date(r.date.replace(/\//g,'-')).getDay()];
+    var tags=''; IDS.forEach(function(id,i){var v=Number(r[id]||0);if(v>0)tags+='<span class="tag">'+LBLS[i]+' <b>$'+v.toLocaleString()+'</b></span>';});
+    var top=showStore?('<span>'+r.date.slice(5)+' 週'+day+'</span><span class="cstore">'+r.store.replace('門市','')+'</span><span class="ctotal">'+fmt(r.grand)+'</span>'):('<span>'+r.date.slice(5)+' 週'+day+'</span><span class="ctotal">'+fmt(r.grand)+'</span><span>▶</span>');
+    row.innerHTML='<div class="rec-top">'+top+'</div>'+(tags?'<div class="rec-tags">'+tags+'</div>':'');
     row.onclick=function(){showDetail(r);};
     wrap.appendChild(row);
   });
   return wrap;
 }
 function showDetail(r){
-  document.getElementById('detail-title').textContent=r.store+' '+r.date;
+  $('detail-title').textContent=r.store+' '+r.date;
   var h='';
-  [{s:'面額'},{id:'d100',l:'100'},{id:'d50',l:'50'},{id:'d10',l:'10'},{id:'d5',l:'5'},{id:'d1',l:'1'},
-   {s:'交班項目'},{id:'borrow',l:'借零抽屜'},{id:'pos1',l:'收銀機 1'},{id:'pos2',l:'收銀機 2'},
-   {s:'庫存零錢'},{id:'pen',l:'鉛筆袋'},{id:'bills',l:'百鈔'},{id:'change',l:'換錢'},{id:'storage',l:'倉庫零錢'}
-  ].forEach(function(x){
-    if(x.s)h+='<div class="detail-sec">'+x.s+'</div>';
-    else h+='<div class="detail-row"><span>'+x.l+'</span><span>'+fmt(r[x.id])+'</span></div>';
+  [{s:'面額'},{id:'d100',l:'100'},{id:'d50',l:'50'},{id:'d10',l:'10'},{id:'d5',l:'5'},{id:'d1',l:'1'},{s:'交班項目'},{id:'borrow',l:'借零抽屜'},{id:'pos1',l:'收銀機 1'},{id:'pos2',l:'收銀機 2'},{s:'庫存零錢'},{id:'pen',l:'鉛筆袋'},{id:'bills',l:'百鈔'},{id:'change',l:'換錢'},{id:'storage',l:'倉庫零錢'}].forEach(function(x){
+    if(x.s) h+='<div class="d-sec">'+x.s+'</div>';
+    else h+='<div class="d-row"><span>'+x.l+'</span><span>'+fmt(r[x.id])+'</span></div>';
   });
-  h+='<div class="detail-total"><span>總合計</span><span>'+fmt(r.grand)+'</span></div>';
-  document.getElementById('detail-content').innerHTML=h;
-  showModal('modal-detail');
+  h+='<div class="d-total"><span>總合計</span><span>'+fmt(r.grand)+'</span></div>';
+  $('detail-body').innerHTML=h; showModal('modal-detail');
 }
 </script>
 </body>
