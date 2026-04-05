@@ -86,10 +86,10 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 
 /* 記錄列表 */
 .rec-list{margin:10px 16px 12px;background:#1c1c1a;border-radius:10px;overflow:hidden;border:1px solid #333}
-.rec-hd{display:grid;grid-template-columns:75px 1fr 76px 38px;background:#222;padding:8px 10px;border-bottom:1px solid #333;gap:4px}
+.rec-hd{display:grid;grid-template-columns:75px 1fr 76px 72px;background:#222;padding:8px 10px;border-bottom:1px solid #333;gap:4px}
 .rec-hd span{font-size:11px;font-weight:600;color:#555}
 .rec-hd span:nth-child(3){text-align:right}
-.rec-row{display:grid;grid-template-columns:75px 1fr 76px 38px;padding:10px;border-bottom:1px solid #2a2a28;cursor:pointer;gap:4px;align-items:start}
+.rec-row{display:grid;grid-template-columns:75px 1fr 76px 72px;padding:10px;border-bottom:1px solid #2a2a28;cursor:pointer;gap:4px;align-items:start}
 .rec-row:last-child{border-bottom:none}
 .rec-row.today{background:#162a05}
 .col-date{font-size:13px;color:#ccc;line-height:1.5}
@@ -101,6 +101,9 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 .col-total .sn{font-size:11px;color:#555;font-weight:400}
 .col-del{display:flex;align-items:center;justify-content:center}
 .del-btn{width:30px;height:30px;background:#3a1010;border:1px solid #5a1818;border-radius:6px;color:#f08080;cursor:pointer;font-size:14px;-webkit-appearance:none;line-height:1}
+.edit-btn{width:30px;height:30px;background:#1a3a5a;border:1px solid #2a5a8a;border-radius:6px;color:#7ab8f5;cursor:pointer;font-size:13px;-webkit-appearance:none;line-height:1}
+.edit-btn:active,.del-btn:active{opacity:.7}
+.btn-pair{display:flex;gap:4px;align-items:center;justify-content:center}
 .del-btn:active{opacity:.7}
 .empty{padding:28px;text-align:center;color:#444;font-size:14px}
 .loading{padding:36px;text-align:center;color:#444;font-size:14px}
@@ -211,11 +214,7 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
     <h1>後台管理</h1>
     <button id="btn-refresh">↻</button>
   </div>
-  <div class="stat-bar">
-    <div class="stat-item"><div class="sl">今日筆數</div><div class="sv" id="s-count">—</div></div>
-    <div class="stat-item"><div class="sl">今日總計</div><div class="sv" id="s-today">—</div></div>
-    <div class="stat-item"><div class="sl">本月總計</div><div class="sv" id="s-month">—</div></div>
-  </div>
+
   <div class="store-tabs" id="store-tabs"></div>
   <div id="admin-data"><div class="loading">點後台管理進入</div></div>
 </div>
@@ -238,7 +237,7 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
       <h2>後台管理</h2>
       <p>請輸入管理密碼</p>
       <input type="password" inputmode="numeric" id="pw-inp" placeholder="••••••••" maxlength="12">
-      <button class="btn-submit" id="btn-pw" style="gap:0">進入</button>
+      <button class="btn-submit" id="btn-pw" style="gap:0">登入</button>
       <div class="lock-err" id="pw-err"></div>
     </div>
   </div>
@@ -314,6 +313,35 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
   </div>
 </div>
 
+
+<!-- 編輯記錄 -->
+<div id="modal-edit" class="modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h2>編輯記錄</h2>
+      <button id="btn-edit-close">✕</button>
+    </div>
+    <div style="padding:14px 16px">
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <input type="text" id="edit-date" style="flex:1;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:15px;padding:0 10px;-webkit-appearance:none;font-family:inherit;outline:none">
+        <select id="edit-store" style="flex:1;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:14px;padding:0 8px;-webkit-appearance:none;font-family:inherit">
+          <option value="銅鑼圈門市">銅鑼圈門市</option>
+          <option value="福龍門市">福龍門市</option>
+          <option value="易仕門市">易仕門市</option>
+        </select>
+      </div>
+      <div id="edit-fields"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;margin:8px 0;border-top:1px solid #333;border-bottom:1px solid #333">
+        <span style="font-size:13px;color:#c0dd97">合計</span>
+        <span id="edit-total" style="font-size:17px;font-weight:700">$0</span>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button id="btn-edit-cancel" style="flex:1;height:44px;background:#2a2a28;color:#888;border:1px solid #444;border-radius:8px;font-size:15px;cursor:pointer;-webkit-appearance:none;font-family:inherit">取消</button>
+        <button id="btn-edit-save" style="flex:2;height:44px;background:#1a5fa5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none;font-family:inherit">儲存</button>
+      </div>
+    </div>
+  </div>
+</div>
 <canvas id="cv" style="display:none"></canvas>
 <div class="toast" id="toast"></div>
 
@@ -448,11 +476,7 @@ function loadData(){
 }
 
 function renderAdmin(rows){
-  var tr=rows.filter(function(r){return r.date===TODAY;});
-  var mr=rows.filter(function(r){return r.date.indexOf(MONTH)===0;});
-  $('s-count').textContent=tr.length+' 筆';
-  $('s-today').textContent=fmt(tr.reduce(function(s,r){return s+Number(r.grand||0);},0));
-  $('s-month').textContent=fmt(mr.reduce(function(s,r){return s+Number(r.grand||0);},0));
+
   var tabsEl=$('store-tabs'),dataEl=$('admin-data');
   tabsEl.innerHTML='';dataEl.innerHTML='';
   function addTab(lbl,srows,first){
@@ -545,7 +569,7 @@ function makeList(rows,showStore){
   sorted.forEach(function(r){
     var row=document.createElement('div');row.className='rec-row'+(r.date===TODAY?' today':'');
     var day=DAYS[new Date(r.date.replace(/\//g,'-')).getDay()];
-    var tags='';IDS.forEach(function(id,i){var v=Number(r[id]||0);if(v>0)tags+='<span class="tag">'+LBLS[i]+' <b>$'+v.toLocaleString()+'</b></span>';});
+    var tags='';var DENOM_IDS=['d100','d50','d10','d5','d1'];DENOM_IDS.forEach(function(id){var i=IDS.indexOf(id);var v=Number(r[id]||0);if(v>0)tags+='<span class="tag">'+LBLS[i]+' <b>$'+v.toLocaleString()+'</b></span>';});
 
     var dateDiv=document.createElement('div');dateDiv.className='col-date';
     dateDiv.innerHTML=r.date.slice(5)+'<div class="wd">週'+day+'</div>';
@@ -556,7 +580,9 @@ function makeList(rows,showStore){
     var totalDiv=document.createElement('div');totalDiv.className='col-total';
     totalDiv.innerHTML=fmt(r.grand)+(showStore?'<div class="sn">'+(STORE_SHORT[r.store]||r.store.replace('門市',''))+'</div>':'');
 
-    var delDiv=document.createElement('div');delDiv.className='col-del';
+    var actDiv=document.createElement('div');actDiv.className='btn-pair';
+    var editBtn=document.createElement('button');editBtn.className='edit-btn';editBtn.textContent='✎';
+    editBtn.onclick=function(e){e.stopPropagation();showEdit(r);};
     var delBtn=document.createElement('button');delBtn.className='del-btn';delBtn.textContent='✕';
     delBtn.onclick=function(e){
       e.stopPropagation();
@@ -564,8 +590,8 @@ function makeList(rows,showStore){
       $('confirm-msg').textContent=r.date+' '+r.store+' '+fmt(r.grand)+' | 此操作無法復原';
       showM('modal-confirm');
     };
-    delDiv.appendChild(delBtn);
-    row.appendChild(dateDiv);row.appendChild(tagsDiv);row.appendChild(totalDiv);row.appendChild(delDiv);
+    actDiv.appendChild(editBtn);actDiv.appendChild(delBtn);
+    row.appendChild(dateDiv);row.appendChild(tagsDiv);row.appendChild(totalDiv);row.appendChild(actDiv);
     row.onclick=function(){showDetail(r);};
     wrap.appendChild(row);
   });
@@ -582,6 +608,88 @@ function showDetail(r){
   h+='<div class="d-total"><span>總合計</span><span>'+fmt(r.grand)+'</span></div>';
   $('detail-body').innerHTML=h;showM('modal-detail');
 }
+
+// ── 編輯功能 ──
+var editingRow = null;
+var editInputs = {};
+
+function showEdit(r){
+  editingRow = r;
+  $('edit-date').value = r.date;
+  $('edit-store').value = r.store;
+  // Build fields
+  var fieldsEl = $('edit-fields');
+  fieldsEl.innerHTML = '';
+  editInputs = {};
+  var sections = [
+    {title:'面額', ids:['d100','d50','d10','d5','d1']},
+    {title:'交班項目', ids:['borrow','pos1','pos2']},
+    {title:'庫存零錢', ids:['pen','bills','change','storage']}
+  ];
+  sections.forEach(function(sec){
+    var st = document.createElement('div');
+    st.style.cssText = 'font-size:11px;font-weight:600;color:#555;letter-spacing:.05em;padding:4px 0 6px;margin-top:4px';
+    st.textContent = sec.title;
+    fieldsEl.appendChild(st);
+    sec.ids.forEach(function(id){
+      var idx = IDS.indexOf(id);
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;margin-bottom:7px;gap:8px';
+      var lbl = document.createElement('label');
+      lbl.textContent = FULL[idx];
+      lbl.style.cssText = 'width:72px;font-size:13px;color:#aaa;flex-shrink:0';
+      var inp = document.createElement('input');
+      inp.type = 'number'; inp.inputMode = 'numeric';
+      inp.value = Number(r[id]||0) || '';
+      inp.placeholder = '0';
+      inp.style.cssText = 'flex:1;height:34px;background:#2a2a28;border:1px solid #444;border-radius:7px;color:#f0efe8;font-size:14px;font-weight:600;text-align:right;padding:0 8px;-webkit-appearance:none;appearance:none;outline:none';
+      inp.addEventListener('input', calcEditTotal);
+      editInputs[id] = inp;
+      row.appendChild(lbl); row.appendChild(inp);
+      fieldsEl.appendChild(row);
+    });
+  });
+  calcEditTotal();
+  showM('modal-edit');
+}
+
+function calcEditTotal(){
+  var t = 0;
+  IDS.forEach(function(id){ if(editInputs[id]) t += parseInt(editInputs[id].value)||0; });
+  $('edit-total').textContent = fmt(t);
+}
+
+$('btn-edit-close').onclick = function(){ hideM('modal-edit'); editingRow = null; };
+$('btn-edit-cancel').onclick = function(){ hideM('modal-edit'); editingRow = null; };
+$('btn-edit-save').onclick = function(){
+  if(!editingRow) return;
+  var r = editingRow;
+  var newDate = $('edit-date').value.trim();
+  var newStore = $('edit-store').value;
+  if(!newDate || !newStore){ toast('請填入日期和門市'); return; }
+  var grand = 0;
+  IDS.forEach(function(id){ if(editInputs[id]) grand += parseInt(editInputs[id].value)||0; });
+  // Step 1: delete old row
+  var delP = 'action=delete&date='+encodeURIComponent(r.date)+'&store='+encodeURIComponent(r.store)+'&grand='+r.grand;
+  // Step 2: add new row
+  var addP = 'date='+encodeURIComponent(newDate)+'&store='+encodeURIComponent(newStore)+'&grand='+grand;
+  IDS.forEach(function(id){ if(editInputs[id]) addP += '&'+id+'='+(parseInt(editInputs[id].value)||0); });
+  var btn = $('btn-edit-save');
+  btn.textContent = '儲存中...'; btn.disabled = true;
+  fetch(GAS+'?'+delP, {method:'GET', mode:'no-cors'})
+    .then(function(){
+      return fetch(GAS+'?'+addP, {method:'GET', mode:'no-cors'});
+    })
+    .then(function(){
+      hideM('modal-edit');
+      editingRow = null;
+      toast('已更新');
+      loadData();
+    })
+    .catch(function(){ toast('儲存失敗'); })
+    .finally(function(){ btn.textContent = '儲存'; btn.disabled = false; });
+};
+
 </script>
 </body>
 </html>
