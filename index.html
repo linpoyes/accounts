@@ -240,6 +240,13 @@ body{font-family:-apple-system,"PingFang TC",sans-serif;background:#1a1a18;color
 <div class="toast" id="toast"></div>
 
 <script>
+window.onerror = function(msg,src,line,col,err){
+  var d=document.createElement('div');
+  d.style.cssText='position:fixed;top:0;left:0;right:0;background:red;color:#fff;padding:8px;font-size:12px;z-index:9999;word-break:break-all';
+  d.textContent='JS錯誤: '+msg+' (行'+line+')';
+  document.body.appendChild(d);
+  return false;
+};
 var GAS =  + GAS + ;
 var PW = '72839168';
 var STORES = ['銅鑼圈門市','福龍門市','易仕門市'];
