@@ -194,21 +194,22 @@
   </div>
 </div>
 
+<!-- Admin Lock (global overlay) -->
+<div class="lock hide" id="admin-lock">
+  <div class="lock-icon">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f1efe8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  </div>
+  <div class="lock-title">後台管理</div>
+  <div class="lock-sub">請輸入管理密碼</div>
+  <input class="lock-input" type="password" inputmode="numeric" id="pw-input" placeholder="••••••••" maxlength="12">
+  <button class="lock-btn" onclick="checkPw()">進入</button>
+  <div class="lock-err" id="lock-err"></div>
+</div>
+
 <!-- ===== PAGE: 後台管理 ===== -->
 <div class="page" id="page-admin">
-  <!-- Lock -->
-  <div class="lock" id="admin-lock">
-    <div class="lock-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f1efe8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    </div>
-    <div class="lock-title">後台管理</div>
-    <div class="lock-sub">請輸入管理密碼</div>
-    <input class="lock-input" type="password" inputmode="numeric" id="pw-input" placeholder="••••••••" maxlength="12">
-    <button class="lock-btn" onclick="checkPw()">進入</button>
-    <div class="lock-err" id="lock-err"></div>
-  </div>
   <!-- Admin content -->
-  <div id="admin-content" style="display:none">
+  <div id="admin-content">
     <div class="admin-topbar">
       <span class="admin-topbar-title">後台管理</span>
       <button class="refresh-btn" onclick="loadData()">
@@ -296,7 +297,8 @@ function switchPage(page){
   document.getElementById('nav-'+page).classList.add('active');
   if(page==='admin' && !sessionStorage.getItem('admin_unlocked')){
     document.getElementById('admin-lock').classList.remove('hide');
-    document.getElementById('admin-content').style.display='none';
+  } else if(page==='admin'){
+    loadData();
   }
 }
 
@@ -306,7 +308,6 @@ function checkPw(){
   if(val === PASSWORD){
     sessionStorage.setItem('admin_unlocked','1');
     document.getElementById('admin-lock').classList.add('hide');
-    document.getElementById('admin-content').style.display='block';
     loadData();
   } else {
     document.getElementById('lock-err').textContent='密碼錯誤，請重新輸入';
