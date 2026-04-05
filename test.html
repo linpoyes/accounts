@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>
+body{background:#1a1a18;color:#fff;font-family:sans-serif;padding:20px}
+button{display:block;width:100%;padding:16px;margin-bottom:12px;font-size:18px;border:none;border-radius:10px;cursor:pointer}
+#b1{background:#185fa5;color:#fff}
+#b2{background:#333;color:#fff}
+#b3{background:#1e4008;color:#fff}
+#log{background:#333;padding:12px;border-radius:8px;font-size:14px;margin-top:12px;min-height:60px}
+</style>
+</head>
+<body>
+<h2>按鈕測試</h2>
+<button id="b1">測試 送出</button>
+<button id="b2">測試 清除</button>
+<button id="b3">測試 分享</button>
+<div id="log">點按鈕，這裡會顯示結果</div>
+<script>
+var log = document.getElementById('log');
+document.getElementById('b1').addEventListener('click', function(){
+  log.textContent = '✅ 送出按鈕有用！' + new Date().toLocaleTimeString();
+});
+document.getElementById('b2').addEventListener('click', function(){
+  log.textContent = '✅ 清除按鈕有用！' + new Date().toLocaleTimeString();
+});
+document.getElementById('b3').addEventListener('click', function(){
+  log.textContent = '✅ 分享按鈕有用！' + new Date().toLocaleTimeString();
+});
+</script>
+</body>
+</html>
