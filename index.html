@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>帳務記錄</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--bg:#f5f4f0;--surface:#fff;--surface2:#f1efe8;--border:rgba(0,0,0,.10);--border2:rgba(0,0,0,.20);--text:#1a1a18;--text2:#5f5e5a;--text3:#888780;--green-dark:#27500a;--green-mid:#3b6d11;--green-light:#eaf3de;--green-text:#c0dd97;--dark:#2c2c2a}
@@ -110,8 +110,8 @@ body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",san
 .atab{padding:12px 16px;font-size:1.3rem;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0}
 .atab.on{color:var(--green-dark);border-bottom-color:var(--green-dark);font-weight:700}
 .asec{display:none}.asec.on{display:block}
-.chart-wrap{margin:16px 18px;background:var(--surface);border-radius:12px;border:.5px solid var(--border);padding:16px;min-height:240px}
-.chart-title{font-size:1.4rem;font-weight:600;color:var(--text);margin-bottom:12px}
+
+
 .tbl-wrap{margin:0 18px 16px;background:var(--surface);border-radius:12px;border:.5px solid var(--border);overflow:hidden}
 .tbl-head{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surface2);border-bottom:.5px solid var(--border);padding:10px 14px}
 .tbl-head span{font-size:1.1rem;font-weight:600;color:var(--text3)}
@@ -238,6 +238,14 @@ body{background:var(--bg);font-family:-apple-system,"PingFang TC","Heiti TC",san
   <input class="lock-inp" type="password" inputmode="numeric" id="pw-inp" placeholder="••••••••" maxlength="12">
   <button class="lock-btn" onclick="checkPw()">進入</button>
   <div class="lock-err" id="lock-err"></div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="lock" id="detail-modal" style="background:rgba(0,0,0,0.85)">
+  <div style="width:100%;max-width:420px;background:var(--surface);border-radius:16px;overflow:hidden;max-height:80vh;overflow-y:auto">
+    <div id="detail-body"></div>
+    <button class="lock-btn" style="border-radius:0;margin:0;width:100%;background:var(--surface2);color:var(--text2);border-top:.5px solid var(--border)" onclick="document.getElementById('detail-modal').classList.remove('on')">關閉</button>
+  </div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -387,21 +395,13 @@ function renderAll(rows){
   document.getElementById('s-month').textContent=fmt(monthRows.reduce((s,r)=>s+Number(r.grand||0),0));
   const tabBar=document.getElementById('atab-bar');const content=document.getElementById('admin-data');
   tabBar.innerHTML='';content.innerHTML='';
-  Object.values(charts).forEach(c=>c.destroy());charts={};
   const allTab=document.createElement('div');allTab.className='atab on';allTab.textContent='全部';allTab.onclick=()=>switchAdminTab('all');tabBar.appendChild(allTab);
   const allSec=document.createElement('div');allSec.className='asec on';allSec.id='asec-all';allSec.appendChild(makeTable(rows,true));content.appendChild(allSec);
-  STORES.forEach((store,idx)=>{
+  STORES.forEach((store)=>{
     const storeRows=rows.filter(r=>r.store===store);
     const tab=document.createElement('div');tab.className='atab';tab.textContent=store.replace('門市','');tab.onclick=()=>switchAdminTab(store);tabBar.appendChild(tab);
     const sec=document.createElement('div');sec.className='asec';sec.id='asec-'+store;
-    const cw=document.createElement('div');cw.className='chart-wrap';
-    const ct=document.createElement('div');ct.className='chart-title';ct.textContent=store+' 每日趨勢';
-    const cv=document.createElement('canvas');cv.id='chart-'+idx;cv.height=200;cv.width=800;
-    cw.appendChild(ct);cw.appendChild(cv);sec.appendChild(cw);sec.appendChild(makeTable(storeRows,false));content.appendChild(sec);
-    setTimeout(()=>{
-      const sorted=[...storeRows].sort((a,b)=>a.date>b.date?1:-1);
-      charts[store]=new Chart(cv,{type:'line',data:{labels:sorted.map(r=>r.date.slice(5)),datasets:[{data:sorted.map(r=>Number(r.grand||0)),borderColor:COLORS[idx],backgroundColor:COLORS[idx]+'22',borderWidth:2,pointRadius:4,pointBackgroundColor:COLORS[idx],fill:true,tension:0.3}]},options:{responsive:false,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{ticks:{font:{size:10},callback:v=>'$'+v.toLocaleString()}}}}});
-    },100);
+    sec.appendChild(makeTable(storeRows,false));content.appendChild(sec);
   });
 }
 
@@ -409,17 +409,53 @@ function makeTable(rows,showStore){
   const sorted=[...rows].sort((a,b)=>a.date>b.date?-1:1);
   const wrap=document.createElement('div');wrap.className='tbl-wrap';
   const head=document.createElement('div');head.className='tbl-head';
-  head.innerHTML=showStore?'<span>日期</span><span>門市</span><span>總合計</span>':'<span>日期</span><span>星期</span><span>總合計</span>';
+  head.innerHTML=showStore?'<span>日期</span><span>門市</span><span>總合計</span>':'<span>日期</span><span>總合計</span><span></span>';
   wrap.appendChild(head);
   if(!sorted.length){const e=document.createElement('div');e.className='empty';e.textContent='尚無資料';wrap.appendChild(e);return wrap;}
   const days=['日','一','二','三','四','五','六'];
   sorted.forEach(r=>{
     const row=document.createElement('div');row.className='tbl-row'+(r.date===dateStr?' today':'');
+    row.style.cursor='pointer';
     const day=days[new Date(r.date.replace(/\//g,'-')).getDay()];
-    row.innerHTML=showStore?`<span>${r.date.slice(5)}</span><span>${r.store.replace('門市','')}</span><span>${fmt(Number(r.grand||0))}</span>`:`<span>${r.date.slice(5)}</span><span>週${day}</span><span>${fmt(Number(r.grand||0))}</span>`;
+    if(showStore){
+      row.innerHTML=`<span>${r.date.slice(5)} 週${day}</span><span>${r.store.replace('門市','')}</span><span>${fmt(Number(r.grand||0))}</span>`;
+    } else {
+      row.innerHTML=`<span>${r.date.slice(5)} 週${day}</span><span>${fmt(Number(r.grand||0))}</span><span style='color:var(--text3);font-size:1.2rem'>▶</span>`;
+    }
+    row.onclick=()=>showDetail(r);
     wrap.appendChild(row);
   });
   return wrap;
+}
+
+function showDetail(r){
+  const items=[
+    {sec:'面額'},
+    {l:'100',v:r.d100},{l:'50',v:r.d50},{l:'10',v:r.d10},{l:'5',v:r.d5},{l:'1',v:r.d1},
+    {sec:'交班項目'},
+    {l:'借零抽屜',v:r.borrow},{l:'收銀機1',v:r.pos1},{l:'收銀機2',v:r.pos2},
+    {sec:'庫存零錢'},
+    {l:'鉛筆袋',v:r.pen},{l:'百鈔',v:r.bills},{l:'換錢',v:r.change},{l:'倉庫零錢',v:r.storage},
+  ];
+  let html=`<div style='padding:16px 18px;border-bottom:.5px solid var(--border);display:flex;justify-content:space-between;align-items:center'>
+    <div>
+      <div style='font-size:1.6rem;font-weight:700;color:var(--text)'>${r.store}</div>
+      <div style='font-size:1.3rem;color:var(--text3)'>${r.date}</div>
+    </div>
+    <div style='font-size:2rem;font-weight:700;color:var(--green-dark)'>${fmt(Number(r.grand||0))}</div>
+  </div>`;
+  items.forEach(item=>{
+    if(item.sec){
+      html+=`<div style='padding:7px 18px;font-size:1.1rem;font-weight:600;color:var(--text3);background:var(--surface2);border-bottom:.5px solid var(--border)'>${item.sec}</div>`;
+    } else {
+      html+=`<div style='display:flex;justify-content:space-between;padding:13px 18px;border-bottom:.5px solid var(--border);background:var(--surface)'>
+        <span style='font-size:1.4rem;color:var(--text)'>${item.l}</span>
+        <span style='font-size:1.4rem;font-weight:600;color:var(--text)'>${fmt(Number(item.v||0))}</span>
+      </div>`;
+    }
+  });
+  document.getElementById('detail-body').innerHTML=html;
+  document.getElementById('detail-modal').classList.add('on');
 }
 
 function switchAdminTab(id){
