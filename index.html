@@ -8,102 +8,143 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:rgba(0,0,0,0.1)}
 html,body{width:100%;max-width:100%;overflow-x:hidden;font-family:-apple-system,sans-serif;background:#1a1a18;color:#f0efe8;font-size:16px}
-/* 隱藏 number input 的 spinner */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:none}
 
 #tabs{display:flex;position:fixed;bottom:0;left:0;right:0;height:56px;background:#111;border-top:1px solid #333;z-index:100}
 #tabs button{flex:1;background:none;border:none;color:#555;font-size:11px;cursor:pointer;padding:4px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-appearance:none}
 #tabs button.active{color:#c0dd97}
 #tabs svg{width:22px;height:22px;display:block}
-
 .page{display:none;padding-bottom:70px;width:100%;overflow-x:hidden}
 .page.active{display:block}
 
+/* 帳務頁頂部 */
 .header{background:#111;padding:14px 16px;position:sticky;top:0;z-index:50;width:100%}
-.header h1{font-size:17px;font-weight:600;margin-bottom:10px}
+.header-r1{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.header h1{font-size:17px;font-weight:600}
+.header-date{font-size:13px;color:#555}
 .header select{width:100%;height:40px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:16px;font-weight:600;padding:0 10px;-webkit-appearance:none;appearance:none}
 
-.total-bar{background:#1e4008;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;width:100%}
+.total-bar{background:#1e4008;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
 .total-bar span:first-child{font-size:13px;color:#c0dd97}
 .total-bar span:last-child{font-size:28px;font-weight:700}
 
-.sec-title{padding:8px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #2a2a28;border-bottom:1px solid #2a2a28;margin-top:8px;width:100%}
-
-.inp-row{display:flex;align-items:center;padding:0 16px;height:52px;background:#1c1c1a;border-bottom:1px solid #2a2a28;width:100%}
+.sec-title{padding:8px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #2a2a28;border-bottom:1px solid #2a2a28;margin-top:8px}
+.inp-row{display:flex;align-items:center;padding:0 16px;height:52px;background:#1c1c1a;border-bottom:1px solid #2a2a28}
 .inp-row label{flex:1;font-size:15px;min-width:0}
 .inp-row input{width:100px;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:16px;font-weight:600;text-align:right;padding:0 10px;flex-shrink:0}
 .inp-row input:focus{border-color:#3a7a1a;outline:none}
 
-.btn-area{padding:16px;display:flex;flex-direction:column;gap:10px;width:100%}
-.btn-submit{height:52px;background:#1a5fa5;color:#fff;border:none;border-radius:10px;font-size:17px;font-weight:700;width:100%;cursor:pointer;-webkit-appearance:none}
-.btn-row{display:flex;gap:10px;width:100%}
+.btn-area{padding:16px;display:flex;flex-direction:column;gap:10px}
+.btn-submit{height:54px;background:linear-gradient(135deg,#1a5fa5,#1a4a85);color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;width:100%;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 3px 12px rgba(26,95,165,.4)}
+.btn-submit svg{width:20px;height:20px;flex-shrink:0}
+.btn-submit:active{opacity:.85;transform:scale(.99)}
+.btn-row{display:flex;gap:10px}
 .btn-clear{flex:1;height:48px;background:#2a2a28;color:#ccc;border:1px solid #444;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
-.btn-share{flex:1;height:48px;background:#1e4008;color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
-.btn-tut{height:46px;background:transparent;color:#555;border:1px dashed #333;border-radius:10px;font-size:14px;cursor:pointer;width:100%;-webkit-appearance:none}
+.btn-share{flex:1;height:48px;background:#1e4008;color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-share svg{width:16px;height:16px;flex-shrink:0}
+.btn-tut{height:44px;background:transparent;color:#555;border:1px dashed #333;border-radius:10px;font-size:13px;cursor:pointer;width:100%;-webkit-appearance:none}
+.btn-clear:active,.btn-share:active,.btn-tut:active{opacity:.8}
 
-.admin-header{background:#111;padding:14px 16px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;width:100%}
+/* 後台 */
+.admin-header{background:#111;padding:14px 16px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center}
 .admin-header h1{font-size:17px;font-weight:600}
 .admin-header button{width:36px;height:36px;background:#2a2a28;border:none;border-radius:8px;color:#f0efe8;cursor:pointer;font-size:18px;-webkit-appearance:none}
-.stat-bar{background:#1e4008;padding:12px 16px;display:flex;gap:20px;width:100%}
-.stat-item .sl{font-size:11px;color:#c0dd97}
-.stat-item .sv{font-size:16px;font-weight:700}
-.store-tabs{display:flex;background:#1c1c1a;border-bottom:1px solid #333;overflow-x:auto;width:100%}
-.store-tab{padding:10px 14px;font-size:13px;color:#555;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit;-webkit-appearance:none}
+
+.stat-bar{background:#1e4008;padding:12px 16px;display:flex;gap:0}
+.stat-item{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,.15)}
+.stat-item:last-child{border-right:none}
+.stat-item .sl{font-size:11px;color:#c0dd97;margin-bottom:2px}
+.stat-item .sv{font-size:15px;font-weight:700}
+
+.store-tabs{display:flex;background:#1c1c1a;border-bottom:1px solid #333;overflow-x:auto}
+.store-tab{padding:10px 16px;font-size:13px;color:#555;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit;-webkit-appearance:none;flex-shrink:0}
 .store-tab.active{color:#c0dd97;border-bottom-color:#c0dd97;font-weight:600}
-.store-sec{display:none;width:100%}.store-sec.active{display:block}
-.rec-list{margin:12px 16px;background:#1c1c1a;border-radius:10px;overflow:hidden;border:1px solid #333}
-.rec-hd{display:grid;grid-template-columns:1fr 1fr 1fr;background:#222;padding:10px 12px;border-bottom:1px solid #333}
+.store-sec{display:none}.store-sec.active{display:block}
+
+/* 後台新增區 */
+.admin-add{margin:12px 16px 0;background:#1c1c1a;border-radius:10px;border:1px solid #333;overflow:hidden}
+.add-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer}
+.add-head span{font-size:14px;font-weight:600;color:#c0dd97}
+.add-arrow{font-size:11px;color:#555;transition:transform .2s}
+.add-head.open .add-arrow{transform:rotate(180deg)}
+.add-body{display:none;padding:12px 14px;border-top:1px solid #333}
+.add-body.open{display:block}
+.add-field{display:flex;align-items:center;margin-bottom:8px;gap:8px}
+.add-field label{width:72px;font-size:13px;color:#aaa;flex-shrink:0}
+.add-field input{flex:1;height:34px;background:#2a2a28;border:1px solid #444;border-radius:7px;color:#f0efe8;font-size:14px;font-weight:600;text-align:right;padding:0 8px;-webkit-appearance:none;appearance:none}
+.add-field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+.add-sel{width:100%;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:15px;padding:0 10px;margin-bottom:10px;-webkit-appearance:none;appearance:none;font-family:inherit}
+.add-sub-title{font-size:11px;color:#555;font-weight:600;letter-spacing:.05em;padding:4px 0 6px;margin-top:4px}
+.add-total{display:flex;justify-content:space-between;align-items:center;padding:8px 0;margin:8px 0;border-top:1px solid #333;border-bottom:1px solid #333}
+.add-total span:first-child{font-size:13px;color:#c0dd97}
+.add-total span:last-child{font-size:17px;font-weight:700}
+.add-btn-row{display:flex;gap:8px;margin-top:10px}
+.add-ok{flex:1;height:42px;background:#1a5fa5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none}
+.add-reset{width:70px;height:42px;background:#2a2a28;color:#888;border:1px solid #444;border-radius:8px;font-size:13px;cursor:pointer;-webkit-appearance:none}
+.add-ok:active,.add-reset:active{opacity:.8}
+
+/* 記錄列表 */
+.rec-list{margin:10px 16px 12px;background:#1c1c1a;border-radius:10px;overflow:hidden;border:1px solid #333}
+.rec-hd{display:grid;grid-template-columns:75px 1fr 76px 38px;background:#222;padding:8px 10px;border-bottom:1px solid #333;gap:4px}
 .rec-hd span{font-size:11px;font-weight:600;color:#555}
-.rec-hd span:last-child{text-align:right}
-.rec-hd span:nth-child(2){text-align:center}
-.rec-row{padding:10px 12px;border-bottom:1px solid #2a2a28;cursor:pointer;width:100%}
+.rec-hd span:nth-child(3){text-align:right}
+.rec-row{display:grid;grid-template-columns:75px 1fr 76px 38px;padding:10px;border-bottom:1px solid #2a2a28;cursor:pointer;gap:4px;align-items:start}
 .rec-row:last-child{border-bottom:none}
 .rec-row.today{background:#162a05}
-.rec-top{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center}
-.rec-top span{font-size:13px;color:#ccc}
-.rec-top .ctotal{text-align:right;font-weight:600;color:#c0dd97}
-.rec-top .cstore{text-align:center;color:#888;font-size:12px}
-.rec-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.tag{background:#222;border:1px solid #333;border-radius:4px;padding:2px 6px;font-size:11px;color:#888}
+.col-date{font-size:13px;color:#ccc;line-height:1.5}
+.col-date .wd{font-size:11px;color:#555}
+.col-tags{display:flex;flex-wrap:wrap;gap:3px;align-items:flex-start}
+.tag{background:#222;border:1px solid #2a2a28;border-radius:4px;padding:2px 5px;font-size:11px;color:#888;white-space:nowrap}
 .tag b{color:#ddd;font-weight:600}
-.empty{padding:32px;text-align:center;color:#444;font-size:14px}
-.loading{padding:40px;text-align:center;color:#444;font-size:14px}
+.col-total{text-align:right;font-size:14px;font-weight:700;color:#c0dd97;line-height:1.5}
+.col-total .sn{font-size:11px;color:#555;font-weight:400}
+.col-del{display:flex;align-items:center;justify-content:center}
+.del-btn{width:30px;height:30px;background:#3a1010;border:1px solid #5a1818;border-radius:6px;color:#f08080;cursor:pointer;font-size:14px;-webkit-appearance:none;line-height:1}
+.del-btn:active{opacity:.7}
+.empty{padding:28px;text-align:center;color:#444;font-size:14px}
+.loading{padding:36px;text-align:center;color:#444;font-size:14px}
 
+/* 彈窗 */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
-.modal-inner{background:#1c1c1a;border-radius:14px;width:100%;max-width:400px;overflow:hidden;max-height:90vh;overflow-y:auto}
-.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #333}
-.modal-head h2{font-size:16px;font-weight:700}
-.modal-head button{background:#2a2a28;border:none;color:#aaa;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;-webkit-appearance:none}
+.modal-box{background:#1c1c1a;border-radius:14px;width:100%;max-width:400px;overflow:hidden;max-height:90vh;overflow-y:auto}
+.modal-hd{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #333}
+.modal-hd h2{font-size:16px;font-weight:700}
+.modal-hd button{background:#2a2a28;border:none;color:#aaa;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;-webkit-appearance:none}
 .d-sec{padding:6px 16px;font-size:11px;font-weight:600;color:#555;background:#222;border-top:1px solid #333;border-bottom:1px solid #333;margin-top:2px}
 .d-row{display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #2a2a28;font-size:14px}
 .d-row span:last-child{font-weight:600}
-.d-total{display:flex;justify-content:space-between;padding:14px 16px;background:#1e4008;font-size:14px}
-.d-total span:first-child{color:#c0dd97}
+.d-total{display:flex;justify-content:space-between;padding:14px 16px;background:#1e4008}
+.d-total span:first-child{font-size:14px;color:#c0dd97}
 .d-total span:last-child{font-size:20px;font-weight:700}
 
-.suc-body{text-align:center;padding:28px 16px}
-.suc-icon{width:56px;height:56px;background:#1e4008;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;color:#c0dd97}
+.confirm-body{padding:24px 20px;text-align:center}
+.confirm-body h2{font-size:17px;font-weight:700;margin-bottom:8px}
+.confirm-body p{font-size:13px;color:#888;margin-bottom:20px;line-height:1.6;white-space:pre-line}
+.cfm-row{display:flex;gap:10px}
+.cfm-cancel{flex:1;height:46px;background:#2a2a28;color:#aaa;border:1px solid #444;border-radius:9px;font-size:16px;cursor:pointer;-webkit-appearance:none}
+.cfm-del{flex:1;height:46px;background:#8b1a1a;color:#fff;border:none;border-radius:9px;font-size:16px;font-weight:600;cursor:pointer;-webkit-appearance:none}
+
+.suc-body{text-align:center;padding:28px 20px}
+.suc-icon{width:58px;height:58px;background:#1e4008;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
 .suc-body h2{font-size:18px;font-weight:700;margin-bottom:6px}
 .suc-body p{font-size:13px;color:#555;margin-bottom:20px}
-.suc-body .btn-submit{margin-bottom:8px}
-.suc-body .btn-skip{height:44px;width:100%;background:#2a2a28;color:#888;border:none;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
+.btn-ok{height:44px;width:100%;background:#2a2a28;color:#ccc;border:none;border-radius:10px;font-size:15px;cursor:pointer;-webkit-appearance:none}
 
 .lock-body{text-align:center;padding:32px 20px}
-.lock-body .ico{font-size:32px;margin-bottom:12px}
+.lock-ico{font-size:32px;margin-bottom:12px}
 .lock-body h2{font-size:18px;font-weight:700;margin-bottom:6px}
 .lock-body p{font-size:13px;color:#555;margin-bottom:24px}
-.lock-body input{width:100%;height:46px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:18px;font-weight:600;text-align:center;letter-spacing:4px;font-family:inherit;margin-bottom:10px;padding:0;-webkit-appearance:none;appearance:none}
-.lock-body .btn-submit{margin-bottom:0}
+.lock-body input{width:100%;height:46px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:18px;font-weight:600;text-align:center;letter-spacing:4px;font-family:inherit;margin-bottom:10px;padding:0;-webkit-appearance:none}
 .lock-err{color:#f08080;font-size:13px;margin-top:8px;min-height:18px}
 
+/* 全螢幕 */
 .fullscreen{display:none;position:fixed;inset:0;z-index:300;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .fullscreen.show{display:block}
-.tut-wrap{background:#000;padding:20px 16px 40px;min-height:100%}
+.tut-wrap{background:#0a0a0a;padding:20px 16px 40px;min-height:100%}
 .tut-wrap h1{font-size:19px;font-weight:700;margin-bottom:4px}
-.tut-wrap .sub{font-size:13px;color:#444;margin-bottom:18px}
+.tut-sub{font-size:13px;color:#444;margin-bottom:18px}
 .tut-step{background:#1c1c1a;border-radius:12px;margin-bottom:12px;overflow:hidden}
 .tut-step-head{display:flex;align-items:center;gap:10px;padding:12px 14px 8px}
 .step-n{width:24px;height:24px;border-radius:50%;background:#1a5fa5;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -111,7 +152,8 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 .tut-step .desc{font-size:13px;color:#555;padding:0 14px 12px;line-height:1.6}
 .tut-step img{width:100%;display:block}
 .tut-close{display:block;width:100%;height:50px;background:#2a2a28;border:none;border-radius:10px;color:#f0efe8;font-size:16px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;-webkit-appearance:none}
-.img-wrap{background:rgba(0,0,0,.9);min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+
+.img-wrap{background:rgba(0,0,0,.92);min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 .img-wrap img{max-width:100%;max-height:65vh;border-radius:10px}
 .img-wrap p{font-size:14px;color:#ccc;margin-top:14px;text-align:center;line-height:1.7}
 .img-wrap button{margin-top:18px;padding:11px 30px;background:#fff;color:#111;border:none;border-radius:20px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none}
@@ -124,7 +166,7 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 
 <div id="page-entry" class="page active">
   <div class="header">
-    <h1 id="hdr-date">帳務記錄</h1>
+    <div class="header-r1"><h1>帳務記錄</h1><span class="header-date" id="hdr-date"></span></div>
     <select id="sel-store">
       <option value="">選擇門市</option>
       <option value="銅鑼圈門市">銅鑼圈門市</option>
@@ -149,12 +191,18 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
   <div class="inp-row"><label>換錢</label><input type="number" inputmode="numeric" id="i-change" placeholder="0"></div>
   <div class="inp-row"><label>倉庫零錢</label><input type="number" inputmode="numeric" id="i-storage" placeholder="0"></div>
   <div class="btn-area">
-    <button class="btn-submit" id="btn-submit">⬆ 送出</button>
+    <button class="btn-submit" id="btn-submit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 2 11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      送出並分享
+    </button>
     <div class="btn-row">
       <button class="btn-clear" id="btn-clear">清除</button>
-      <button class="btn-share" id="btn-share">分享圖片</button>
+      <button class="btn-share" id="btn-share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        只分享圖片
+      </button>
     </div>
-    <button class="btn-tut" id="btn-tut">加入主畫面教學</button>
+    <button class="btn-tut" id="btn-tut">📲 加入主畫面教學</button>
   </div>
 </div>
 
@@ -184,21 +232,21 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 </div>
 
 <div id="modal-lock" class="modal">
-  <div class="modal-inner">
+  <div class="modal-box">
     <div class="lock-body">
-      <div class="ico">🔒</div>
+      <div class="lock-ico">🔒</div>
       <h2>後台管理</h2>
       <p>請輸入管理密碼</p>
       <input type="password" inputmode="numeric" id="pw-inp" placeholder="••••••••" maxlength="12">
-      <button class="btn-submit" id="btn-pw">進入</button>
+      <button class="btn-submit" id="btn-pw" style="gap:0">進入</button>
       <div class="lock-err" id="pw-err"></div>
     </div>
   </div>
 </div>
 
 <div id="modal-detail" class="modal">
-  <div class="modal-inner">
-    <div class="modal-head">
+  <div class="modal-box">
+    <div class="modal-hd">
       <h2 id="detail-title">詳細記錄</h2>
       <button id="btn-detail-close">✕</button>
     </div>
@@ -206,14 +254,26 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
   </div>
 </div>
 
+<div id="modal-confirm" class="modal">
+  <div class="modal-box">
+    <div class="confirm-body">
+      <h2>確認刪除</h2>
+      <p id="confirm-msg"></p>
+      <div class="cfm-row">
+        <button class="cfm-cancel" id="btn-cfm-cancel">取消</button>
+        <button class="cfm-del" id="btn-cfm-del">刪除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="modal-suc" class="modal">
-  <div class="modal-inner">
+  <div class="modal-box">
     <div class="suc-body">
-      <div class="suc-icon">✓</div>
+      <div class="suc-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c0dd97" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
       <h2>送出成功</h2>
-      <p>資料已寫入試算表<br>要分享這筆記錄嗎？</p>
-      <button class="btn-submit" id="btn-suc-share">分享圖片</button>
-      <button class="btn-skip" id="btn-suc-skip">略過</button>
+      <p>資料已寫入試算表</p>
+      <button class="btn-ok" id="btn-suc-ok">確定</button>
     </div>
   </div>
 </div>
@@ -221,11 +281,27 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 <div id="page-tut" class="fullscreen">
   <div class="tut-wrap">
     <h1>加入主畫面教學</h1>
-    <div class="sub">使用 Safari 瀏覽器，依以下步驟操作</div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-n">1</div><span>點右下角「⋯」按鈕</span></div><div class="desc">Safari 網址列右側點選三個點的選單按鈕</div></div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-n">2</div><span>選「分享」</span></div><div class="desc">在跳出的選單中點選「分享」</div></div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-n">3</div><span>點「檢視更多內容」</span></div><div class="desc">在分享選單圖示列，點最右邊「檢視更多內容」</div></div>
-    <div class="tut-step"><div class="tut-step-head"><div class="step-n">4</div><span>點「加入主畫面」→「新增」</span></div><div class="desc">往下滑找到「加入主畫面」，點選後右上角按「新增」完成</div></div>
+    <div class="tut-sub">使用 Safari 瀏覽器，依以下步驟操作</div>
+    <div class="tut-step">
+      <div class="tut-step-head"><div class="step-n">1</div><span>點右下角「⋯」按鈕</span></div>
+      <div class="desc">Safari 網址列右側點選三個點的選單按鈕</div>
+      
+    </div>
+    <div class="tut-step">
+      <div class="tut-step-head"><div class="step-n">2</div><span>選「分享」</span></div>
+      <div class="desc">在跳出的選單中點選「分享」</div>
+      
+    </div>
+    <div class="tut-step">
+      <div class="tut-step-head"><div class="step-n">3</div><span>點「檢視更多內容」</span></div>
+      <div class="desc">在分享選單圖示列，點最右邊「檢視更多內容」</div>
+      
+    </div>
+    <div class="tut-step">
+      <div class="tut-step-head"><div class="step-n">4</div><span>點「加入主畫面」→「新增」</span></div>
+      <div class="desc">往下滑找到「加入主畫面」，點選後右上角按「新增」完成</div>
+      
+    </div>
     <button class="tut-close" id="btn-tut-close">關閉</button>
   </div>
 </div>
@@ -242,38 +318,37 @@ input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:
 <div class="toast" id="toast"></div>
 
 <script>
+
 var GAS='https://script.google.com/macros/s/AKfycbxGN4yJueCrYqP3DaYJCNoAiMfKez1T69SXROpshZBJoK2eh6U2s5bUpLEH-gZe-ERV/exec';
 var PW='72839168';
 var STORES=['銅鑼圈門市','福龍門市','易仕門市'];
+var STORE_SHORT={'銅鑼圈門市':'銅鑼圈','福龍門市':'福龍','易仕門市':'易仕'};
 var IDS=['d100','d50','d10','d5','d1','borrow','pos1','pos2','pen','bills','change','storage'];
 var LBLS=['$100','$50','$10','$5','$1','借零','機1','機2','鉛筆袋','百鈔','換錢','倉庫'];
+var FULL=['100','50','10','5','1','借零抽屜','收銀機 1','收銀機 2','鉛筆袋','百鈔','換錢','倉庫零錢'];
 var DAYS=['日','一','二','三','四','五','六'];
 
 var now=new Date();
 var TODAY=now.getFullYear()+'/'+pad(now.getMonth()+1)+'/'+pad(now.getDate());
 var MONTH=TODAY.slice(0,7);
-function pad(n){return ('0'+n).slice(-2);}
-function fmt(n){return '$'+(+n||0).toLocaleString();}
+function pad(n){return('0'+n).slice(-2);}
+function fmt(n){return'$'+(+n||0).toLocaleString();}
 function gv(id){return parseInt(document.getElementById('i-'+id).value)||0;}
 function $(id){return document.getElementById(id);}
 
-$('hdr-date').textContent='帳務記錄 — '+TODAY;
+$('hdr-date').textContent=TODAY;
 var sv=localStorage.getItem('store');
 if(sv) $('sel-store').value=sv;
 $('sel-store').onchange=function(){localStorage.setItem('store',this.value);};
 
-function calcTotal(){
-  var t=0; IDS.forEach(function(id){t+=gv(id);}); $('grand').textContent=t.toLocaleString();
-}
-IDS.forEach(function(id){
-  var el=$('i-'+id); if(el) el.oninput=calcTotal;
-});
+function calcTotal(){var t=0;IDS.forEach(function(id){t+=gv(id);});$('grand').textContent=t.toLocaleString();}
+IDS.forEach(function(id){var el=$('i-'+id);if(el)el.oninput=calcTotal;});
 
 function toast(msg){var t=$('toast');t.textContent=msg;t.className='toast show';setTimeout(function(){t.className='toast';},2500);}
-function showModal(id){$(id).className='modal show';}
-function hideModal(id){$(id).className='modal';}
-function showFull(id){$(id).className='fullscreen show';}
-function hideFull(id){$(id).className='fullscreen';}
+function showM(id){$(id).className='modal show';}
+function hideM(id){$(id).className='modal';}
+function showF(id){$(id).className='fullscreen show';}
+function hideF(id){$(id).className='fullscreen';}
 
 $('tab-entry').onclick=function(){
   $('page-entry').className='page active';$('page-admin').className='page';
@@ -282,122 +357,230 @@ $('tab-entry').onclick=function(){
 $('tab-admin').onclick=function(){
   $('page-entry').className='page';$('page-admin').className='page active';
   $('tab-entry').className='';$('tab-admin').className='active';
-  if(!sessionStorage.getItem('ok')){showModal('modal-lock');}else{loadData();}
+  if(!sessionStorage.getItem('ok')){showM('modal-lock');}else{loadData();}
 };
 $('btn-pw').onclick=function(){
-  if($('pw-inp').value===PW){sessionStorage.setItem('ok','1');hideModal('modal-lock');loadData();}
+  if($('pw-inp').value===PW){sessionStorage.setItem('ok','1');hideM('modal-lock');loadData();}
   else{$('pw-err').textContent='密碼錯誤';$('pw-inp').value='';}
 };
 $('pw-inp').onkeydown=function(e){if(e.key==='Enter')$('btn-pw').onclick();};
 $('btn-clear').onclick=function(){IDS.forEach(function(id){$('i-'+id).value='';});calcTotal();};
+
 $('btn-submit').onclick=function(){
   var store=$('sel-store').value;
   if(!store){toast('請先選擇門市');return;}
-  var grand=0; IDS.forEach(function(id){grand+=gv(id);});
+  var grand=0;IDS.forEach(function(id){grand+=gv(id);});
   var p='date='+encodeURIComponent(TODAY)+'&store='+encodeURIComponent(store)+'&grand='+grand;
   IDS.forEach(function(id){p+='&'+id+'='+gv(id);});
-  var btn=$('btn-submit'); btn.textContent='送出中...'; btn.disabled=true;
+  var btn=$('btn-submit');
+  btn.innerHTML='送出中...';btn.disabled=true;
   fetch(GAS+'?'+p,{method:'GET',mode:'no-cors'})
-    .then(function(){showModal('modal-suc');})
-    .catch(function(){toast('送出失敗');})
-    .finally(function(){btn.textContent='⬆ 送出';btn.disabled=false;});
+    .then(function(){
+      showM('modal-suc');
+      setTimeout(function(){doShare();},500);
+    })
+    .catch(function(){toast('送出失敗，請重試');})
+    .finally(function(){
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 2 11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>送出並分享';
+      btn.disabled=false;
+    });
 };
+
+$('btn-suc-ok').onclick=function(){hideM('modal-suc');};
 $('btn-share').onclick=function(){doShare();};
-$('btn-tut').onclick=function(){showFull('page-tut');};
-$('btn-tut-close').onclick=function(){hideFull('page-tut');};
-$('btn-img-close').onclick=function(){hideFull('page-img');};
-$('btn-detail-close').onclick=function(){hideModal('modal-detail');};
-$('btn-suc-share').onclick=function(){hideModal('modal-suc');doShare();};
-$('btn-suc-skip').onclick=function(){hideModal('modal-suc');};
+$('btn-tut').onclick=function(){showF('page-tut');};
+$('btn-tut-close').onclick=function(){hideF('page-tut');};
+$('btn-img-close').onclick=function(){hideF('page-img');};
+$('btn-detail-close').onclick=function(){hideM('modal-detail');};
 $('btn-refresh').onclick=function(){loadData();};
+
+var pendingDel=null;
+$('btn-cfm-cancel').onclick=function(){hideM('modal-confirm');pendingDel=null;};
+$('btn-cfm-del').onclick=function(){
+  if(!pendingDel)return;
+  var r=pendingDel;pendingDel=null;hideM('modal-confirm');
+  var p='action=delete&date='+encodeURIComponent(r.date)+'&store='+encodeURIComponent(r.store)+'&grand='+r.grand;
+  fetch(GAS+'?'+p,{method:'GET',mode:'no-cors'})
+    .then(function(){toast('已刪除');loadData();})
+    .catch(function(){toast('刪除失敗');});
+};
 
 function buildCanvas(){
   var store=$('sel-store').value||'帳務記錄';
-  var grand=0; IDS.forEach(function(id){grand+=gv(id);});
+  var grand=0;IDS.forEach(function(id){grand+=gv(id);});
   var W=375,sc=3;
   var rows=[{s:'面額'},{l:'100',v:gv('d100')},{l:'50',v:gv('d50')},{l:'10',v:gv('d10')},{l:'5',v:gv('d5')},{l:'1',v:gv('d1')},{s:'交班項目'},{l:'借零抽屜',v:gv('borrow')},{l:'收銀機 1',v:gv('pos1')},{l:'收銀機 2',v:gv('pos2')},{s:'庫存零錢'},{l:'鉛筆袋',v:gv('pen')},{l:'百鈔',v:gv('bills')},{l:'換錢',v:gv('change')},{l:'倉庫零錢',v:gv('storage')}];
-  var H=70+60+8+16; rows.forEach(function(r){H+=r.s?28:44;});
-  var cv=$('cv'); cv.width=W*sc; cv.height=H*sc;
-  var ctx=cv.getContext('2d'); ctx.scale(sc,sc);
+  var H=70+60+8+16;rows.forEach(function(r){H+=r.s?28:44;});
+  var cv=$('cv');cv.width=W*sc;cv.height=H*sc;
+  var ctx=cv.getContext('2d');ctx.scale(sc,sc);
   var F='"PingFang TC",-apple-system,sans-serif';
   function R(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
   function L(y){ctx.save();ctx.strokeStyle='#2a2a28';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.restore();}
   function T(s,x,y,sz,fw,c,a){ctx.save();ctx.font=fw+' '+sz+'px '+F;ctx.fillStyle=c;ctx.textAlign=a||'left';ctx.textBaseline='middle';ctx.fillText(''+s,x,y);ctx.restore();}
   var y=0;
-  R(0,y,W,70,'#111110'); T('帳務記錄',16,y+16,12,'400','#555'); T(TODAY,W-16,y+16,12,'400','#555','right'); T(store,16,y+52,17,'700','#f0efe8'); y+=70;
-  R(0,y,W,60,'#1e4008'); T('總合計',16,y+30,13,'500','#c0dd97'); T(fmt(grand),W-16,y+30,25,'700','#fff','right'); y+=68;
+  R(0,y,W,70,'#111110');T('帳務記錄',16,y+16,12,'400','#555');T(TODAY,W-16,y+16,12,'400','#555','right');T(store,16,y+52,17,'700','#f0efe8');y+=70;
+  R(0,y,W,60,'#1e4008');T('總合計',16,y+30,13,'500','#c0dd97');T(fmt(grand),W-16,y+30,25,'700','#fff','right');y+=68;
   rows.forEach(function(r){if(r.s){R(0,y,W,28,'#222');T(r.s,16,y+14,11,'600','#555');L(y+28);y+=28;}else{R(0,y,W,44,'#1c1c1a');T(r.l,16,y+22,14,'400','#f0efe8');T(fmt(r.v),W-16,y+22,14,'600','#f0efe8','right');L(y+44);y+=44;}});
   return cv;
 }
+
 function doShare(){
   var cv=buildCanvas();
-  var store=($('sel-store').value||'帳務').replace('門市','');
-  var name='帳務_'+store+'_'+TODAY.replace(/\//g,'-')+'.png';
+  var store=$('sel-store').value||'';
+  var shortName=STORE_SHORT[store]||store.replace('門市','')||'帳務';
+  var name='帳務_'+shortName+'_'+TODAY.replace(/\//g,'-')+'.png';
   if(navigator.share&&navigator.canShare){
     cv.toBlob(function(blob){
       var f=new File([blob],name,{type:'image/png'});
-      if(navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});return;}
+      if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:'帳務記錄 '+shortName+' '+TODAY}).catch(function(){});return;}
       showImgPage(cv);
     },'image/png');
   }else{showImgPage(cv);}
 }
-function showImgPage(cv){$('share-img').src=cv.toDataURL('image/png');showFull('page-img');}
+function showImgPage(cv){$('share-img').src=cv.toDataURL('image/png');showF('page-img');}
 
 function loadData(){
-  $('store-tabs').innerHTML=''; $('admin-data').innerHTML='<div class="loading">載入中...</div>';
+  $('store-tabs').innerHTML='';$('admin-data').innerHTML='<div class="loading">載入中...</div>';
   fetch(GAS+'?action=read').then(function(r){return r.json();}).then(function(j){
     if(j.status!=='ok')throw 0;
     renderAdmin(j.rows);
   }).catch(function(){$('admin-data').innerHTML='<div class="empty">載入失敗</div>';toast('載入失敗');});
 }
+
 function renderAdmin(rows){
   var tr=rows.filter(function(r){return r.date===TODAY;});
   var mr=rows.filter(function(r){return r.date.indexOf(MONTH)===0;});
   $('s-count').textContent=tr.length+' 筆';
   $('s-today').textContent=fmt(tr.reduce(function(s,r){return s+Number(r.grand||0);},0));
   $('s-month').textContent=fmt(mr.reduce(function(s,r){return s+Number(r.grand||0);},0));
-  var tabsEl=$('store-tabs'), dataEl=$('admin-data');
-  tabsEl.innerHTML=''; dataEl.innerHTML='';
-  function add(lbl,id,rows2,first){
-    var bt=document.createElement('button'); bt.className='store-tab'+(first?' active':''); bt.textContent=lbl;
-    var sec=document.createElement('div'); sec.className='store-sec'+(first?' active':''); sec.appendChild(makeList(rows2,lbl==='全部'));
+  var tabsEl=$('store-tabs'),dataEl=$('admin-data');
+  tabsEl.innerHTML='';dataEl.innerHTML='';
+  function addTab(lbl,srows,first){
+    var bt=document.createElement('button');bt.className='store-tab'+(first?' active':'');bt.textContent=lbl;
+    var wrap=document.createElement('div');wrap.className='store-sec'+(first?' active':'');
+    wrap.appendChild(makeAddBox(lbl==='全部'?'':lbl+'門市'));
+    wrap.appendChild(makeList(srows,lbl==='全部'));
     bt.onclick=function(){
       document.querySelectorAll('.store-tab').forEach(function(x){x.className='store-tab';});
       document.querySelectorAll('.store-sec').forEach(function(x){x.className='store-sec';});
-      bt.className='store-tab active'; sec.className='store-sec active';
+      bt.className='store-tab active';wrap.className='store-sec active';
     };
-    tabsEl.appendChild(bt); dataEl.appendChild(sec);
+    tabsEl.appendChild(bt);dataEl.appendChild(wrap);
   }
-  add('全部','all',rows,true);
-  STORES.forEach(function(s){add(s.replace('門市',''),s,rows.filter(function(r){return r.store===s;}),false);});
+  addTab('全部',rows,true);
+  STORES.forEach(function(s){addTab(STORE_SHORT[s],rows.filter(function(r){return r.store===s;}),false);});
 }
+
+function makeAddBox(defaultStore){
+  var box=document.createElement('div');box.className='admin-add';
+  var head=document.createElement('div');head.className='add-head';
+  head.innerHTML='<span>＋ 新增記錄</span><span class="add-arrow">▼</span>';
+  var body=document.createElement('div');body.className='add-body';
+
+  var dateInp=document.createElement('input');
+  dateInp.type='text';dateInp.value=TODAY;
+  dateInp.style.cssText='width:100%;height:38px;background:#2a2a28;border:1px solid #444;border-radius:8px;color:#f0efe8;font-size:15px;padding:0 10px;margin-bottom:8px;-webkit-appearance:none;font-family:inherit;outline:none';
+  body.appendChild(dateInp);
+
+  var storeSel=document.createElement('select');storeSel.className='add-sel';
+  storeSel.innerHTML='<option value="">選擇門市</option>';
+  STORES.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;storeSel.appendChild(o);});
+  if(defaultStore)storeSel.value=defaultStore;
+  body.appendChild(storeSel);
+
+  var inputs={};
+  var sections=[{title:'面額',ids:['d100','d50','d10','d5','d1']},{title:'交班項目',ids:['borrow','pos1','pos2']},{title:'庫存零錢',ids:['pen','bills','change','storage']}];
+  sections.forEach(function(sec){
+    var st=document.createElement('div');st.className='add-sub-title';st.textContent=sec.title;body.appendChild(st);
+    sec.ids.forEach(function(id){
+      var idx=IDS.indexOf(id);
+      var row=document.createElement('div');row.className='add-field';
+      var lbl=document.createElement('label');lbl.textContent=FULL[idx];
+      var inp=document.createElement('input');inp.type='number';inp.inputMode='numeric';inp.placeholder='0';
+      inp.addEventListener('input',calcAdd);
+      inputs[id]=inp;row.appendChild(lbl);row.appendChild(inp);body.appendChild(row);
+    });
+  });
+
+  var totalEl=document.createElement('div');totalEl.className='add-total';
+  totalEl.innerHTML='<span>合計</span><span>$0</span>';
+  var totalSpan=totalEl.querySelector('span:last-child');
+  body.appendChild(totalEl);
+
+  function calcAdd(){var t=0;IDS.forEach(function(id){if(inputs[id])t+=parseInt(inputs[id].value)||0;});totalSpan.textContent=fmt(t);}
+
+  var btnRow=document.createElement('div');btnRow.className='add-btn-row';
+  var okBtn=document.createElement('button');okBtn.className='add-ok';okBtn.textContent='新增';
+  var resetBtn=document.createElement('button');resetBtn.className='add-reset';resetBtn.textContent='清除';
+  resetBtn.onclick=function(){IDS.forEach(function(id){if(inputs[id])inputs[id].value='';});calcAdd();};
+  okBtn.onclick=function(){
+    var store=storeSel.value;if(!store){toast('請選擇門市');return;}
+    var date=dateInp.value.trim();if(!date){toast('請填入日期');return;}
+    var grand=0;IDS.forEach(function(id){if(inputs[id])grand+=parseInt(inputs[id].value)||0;});
+    var p='date='+encodeURIComponent(date)+'&store='+encodeURIComponent(store)+'&grand='+grand;
+    IDS.forEach(function(id){if(inputs[id])p+='&'+id+'='+(parseInt(inputs[id].value)||0);});
+    okBtn.textContent='新增中...';okBtn.disabled=true;
+    fetch(GAS+'?'+p,{method:'GET',mode:'no-cors'})
+      .then(function(){toast('新增成功');loadData();})
+      .catch(function(){toast('新增失敗');})
+      .finally(function(){okBtn.textContent='新增';okBtn.disabled=false;});
+  };
+  btnRow.appendChild(resetBtn);btnRow.appendChild(okBtn);body.appendChild(btnRow);
+  box.appendChild(head);box.appendChild(body);
+  head.onclick=function(){
+    var open=body.className.indexOf('open')>=0;
+    head.className='add-head'+(open?'':' open');
+    body.className='add-body'+(open?'':' open');
+  };
+  return box;
+}
+
 function makeList(rows,showStore){
   var sorted=[].concat(rows).sort(function(a,b){return a.date>b.date?-1:1;});
-  var wrap=document.createElement('div'); wrap.className='rec-list';
-  var hd=document.createElement('div'); hd.className='rec-hd';
-  hd.innerHTML=showStore?'<span>日期</span><span>門市</span><span>總合計</span>':'<span>日期</span><span>總合計</span><span></span>';
+  var wrap=document.createElement('div');wrap.className='rec-list';
+  var hd=document.createElement('div');hd.className='rec-hd';
+  hd.innerHTML='<span>日期</span><span>明細</span><span>金額</span><span></span>';
   wrap.appendChild(hd);
   if(!sorted.length){var e=document.createElement('div');e.className='empty';e.textContent='尚無資料';wrap.appendChild(e);return wrap;}
   sorted.forEach(function(r){
-    var row=document.createElement('div'); row.className='rec-row'+(r.date===TODAY?' today':'');
+    var row=document.createElement('div');row.className='rec-row'+(r.date===TODAY?' today':'');
     var day=DAYS[new Date(r.date.replace(/\//g,'-')).getDay()];
-    var tags=''; IDS.forEach(function(id,i){var v=Number(r[id]||0);if(v>0)tags+='<span class="tag">'+LBLS[i]+' <b>$'+v.toLocaleString()+'</b></span>';});
-    var top=showStore?('<span>'+r.date.slice(5)+' 週'+day+'</span><span class="cstore">'+r.store.replace('門市','')+'</span><span class="ctotal">'+fmt(r.grand)+'</span>'):('<span>'+r.date.slice(5)+' 週'+day+'</span><span class="ctotal">'+fmt(r.grand)+'</span><span>▶</span>');
-    row.innerHTML='<div class="rec-top">'+top+'</div>'+(tags?'<div class="rec-tags">'+tags+'</div>':'');
+    var tags='';IDS.forEach(function(id,i){var v=Number(r[id]||0);if(v>0)tags+='<span class="tag">'+LBLS[i]+' <b>$'+v.toLocaleString()+'</b></span>';});
+
+    var dateDiv=document.createElement('div');dateDiv.className='col-date';
+    dateDiv.innerHTML=r.date.slice(5)+'<div class="wd">週'+day+'</div>';
+
+    var tagsDiv=document.createElement('div');tagsDiv.className='col-tags';
+    tagsDiv.innerHTML=tags||'<span style="color:#444;font-size:12px">—</span>';
+
+    var totalDiv=document.createElement('div');totalDiv.className='col-total';
+    totalDiv.innerHTML=fmt(r.grand)+(showStore?'<div class="sn">'+(STORE_SHORT[r.store]||r.store.replace('門市',''))+'</div>':'');
+
+    var delDiv=document.createElement('div');delDiv.className='col-del';
+    var delBtn=document.createElement('button');delBtn.className='del-btn';delBtn.textContent='✕';
+    delBtn.onclick=function(e){
+      e.stopPropagation();
+      pendingDel=r;
+      $('confirm-msg').textContent=r.date+' '+r.store+' '+fmt(r.grand)+' | 此操作無法復原';
+      showM('modal-confirm');
+    };
+    delDiv.appendChild(delBtn);
+    row.appendChild(dateDiv);row.appendChild(tagsDiv);row.appendChild(totalDiv);row.appendChild(delDiv);
     row.onclick=function(){showDetail(r);};
     wrap.appendChild(row);
   });
   return wrap;
 }
+
 function showDetail(r){
   $('detail-title').textContent=r.store+' '+r.date;
   var h='';
   [{s:'面額'},{id:'d100',l:'100'},{id:'d50',l:'50'},{id:'d10',l:'10'},{id:'d5',l:'5'},{id:'d1',l:'1'},{s:'交班項目'},{id:'borrow',l:'借零抽屜'},{id:'pos1',l:'收銀機 1'},{id:'pos2',l:'收銀機 2'},{s:'庫存零錢'},{id:'pen',l:'鉛筆袋'},{id:'bills',l:'百鈔'},{id:'change',l:'換錢'},{id:'storage',l:'倉庫零錢'}].forEach(function(x){
-    if(x.s) h+='<div class="d-sec">'+x.s+'</div>';
+    if(x.s)h+='<div class="d-sec">'+x.s+'</div>';
     else h+='<div class="d-row"><span>'+x.l+'</span><span>'+fmt(r[x.id])+'</span></div>';
   });
   h+='<div class="d-total"><span>總合計</span><span>'+fmt(r.grand)+'</span></div>';
-  $('detail-body').innerHTML=h; showModal('modal-detail');
+  $('detail-body').innerHTML=h;showM('modal-detail');
 }
 </script>
 </body>
